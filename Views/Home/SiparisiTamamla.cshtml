@@ -1,0 +1,348 @@
+﻿@model on_e_commerce.data.Tbl_SiparisDetay
+@using on_e_commerce.Models
+
+@{
+                /**/
+
+                /**/
+
+                /**/
+
+                /**/
+
+                /**/
+
+                ViewBag.Title = "SiparisiTamamla";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    $("#il").change(function () {
+        $("#tblProducts tbody tr").remove();
+        $("#ilcegoster").empty();
+        var ilId =$(this).val();
+    $.ajax({
+        type: 'POST',
+        url: '@Url.Action("Ilceler", "Home")',
+        dataType: 'json',
+        data: { SehirId: $("#il").val() },
+        success: function (data) {
+
+            var ilcehtmls = "";
+            for (var i in data) {
+                ilcehtmls += "<option value=" + data[i].Id + "><span>" + data[i].Ad + "</span></option>"
+
+            }
+            $('.selectilce').html(ilcehtmls);
+
+            var items = '';
+            $.each(data, function (i, item) {
+
+                var rows = "<tr>"
+                    + "<td class='prtoducttd'>" + item.Id + "</td>"
+                    + "<td class='prtoducttd'>" + item.Ad + "</td>"
+                    + "</tr>";
+                $('#tblProducts tbody').append(rows);
+            });
+
+        },
+        error: function (ex) {
+            var r = jQuery.parseJSON(response.responseText);
+            alert("Message: " + r.Message);
+            alert("StackTrace: " + r.StackTrace);
+            alert("ExceptionType: " + r.ExceptionType);
+        }
+    });
+    return false;
+        })
+    });
+    function btngetir()
+    {
+        var cartArray = shoppingCart.listCart();
+        $.ajax({
+            type: 'POST',
+            url: "/Home/GetirIlceler/",
+            data: { SehirId: $("#il").val() },
+            success: function (data) {
+                window.location = "/Home/SiparisiTamamla";
+            }
+        });
+    }
+</script>
+
+
+<script>
+    var x = document.getElementById("sepetdiv");
+    x.style.display = "none";
+</script>
+
+
+@if (Session["sepet"] != null)
+{
+
+    <table id="tblProducts" class="tblProducts">
+        <thead>
+            <tr>
+                <th align="left" class="productth">ID</th>
+                <th align="left" class="productth">Name</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="col-lg-6">
+        <select id="il" class=" form-control">
+            @foreach (var item in ViewBag.Sehirler)
+            {
+                <option value="@item.SehirId">@item.SehirAdi</option>
+            }
+        </select>
+    </div>
+    <div class="col-lg-6">
+        <select class="selectilce form-control">
+            <option></option>
+        </select>
+    </div>
+        <a href="/Payment/Payment/" @*id="getirbuton" onclick="btngetir()"*@ class="btn primary-btn">payment</a>
+
+        int totalfiyat = 0;
+        using (Html.BeginForm())
+        {
+        @Html.AntiForgeryToken()
+        <section class="checkout spad">
+            <div class="container">
+                <div class="checkout__form">
+                    <h4>Sipariş Detayları</h4>
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-6">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Adınız<span>*</span></p>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Soyadınız<span>*</span></p>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkout__input">
+                                    <p>Ülke<span>*</span></p>
+                                    <input type="text" disabled value="Türkiye" />
+                                </div>
+                                <div class="checkout__input ">
+                                    <p>Şehir<span>*</span></p>
+
+                                </div>
+                                <div class="checkout__input">
+                                    <p>İlçe<span>*</span></p>
+
+                                </div>
+                                <div class="checkout__input">
+                                    <p>Adres<span>*</span></p>
+                                    <input type="text" placeholder="Mahalle, Sokak, Apartman, Daire" class="checkout__input__add">
+                                    <input type="text" placeholder="Ayrıntı verebilecek bir konum. Ör:Bim marketin karşısı. (İsteğe bağlı)">
+                                </div>
+
+                                <div class="checkout__input">
+                                    <p>Postakodu<span>*</span></p>
+                                    <input type="text">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Telefon<span>*</span></p>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="checkout__input">
+                                            <p>Email<span>*</span></p>
+                                            <input type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="checkout__input__checkbox">
+                                    <label for="acc">
+                                        Create an account?
+                                        <input type="checkbox" id="acc">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <p>
+                                    Create an account by entering the information below. If you are a returning customer
+                                    please login at the top of the page
+                                </p>
+                                <div class="checkout__input">
+                                    <p>Account Password<span>*</span></p>
+                                    <input type="text">
+                                </div>
+
+                                <div class="checkout__input__checkbox">
+                                    <label for="diff-acc">
+                                        Ship to a different address?
+                                        <input type="checkbox" id="diff-acc">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="checkout__input">
+                                    <p>Order notes<span>*</span></p>
+                                    <input type="text"
+                                           placeholder="Notes about your order, e.g. special notes for delivery.">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="checkout__order">
+                                    <h4>Siparişiniz</h4>
+                                    <div class="checkout__order__products">Ürünler <span>Toplam</span></div>
+                                    <ul>
+
+                                        @foreach (Item item in (List<Item>)Session["sepet"])
+                                        {
+
+                                            int uruntotalfiyat = Convert.ToInt16(@item.Urun.Fiyat) * Convert.ToInt16(@item.Count);
+                                            totalfiyat += uruntotalfiyat;
+                                            <li>@item.Urun.UrunAdi <span>@item.Urun.Fiyat TL</span><span>(@item.Count)</span></li>
+                                        }
+                                    </ul>
+                                    <div class="checkout__order__total"></div>
+                                    <div class="checkout__order__subtotal">Toplam <span>@totalfiyat TL</span></div>
+                                    <div class="checkout__input__checkbox">
+                                        <label for="acc-or">
+                                            Create an account?
+                                            <input type="checkbox" id="acc-or">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="checkout__input__checkbox">
+                                        <label for="payment">
+                                            Check Payment
+                                            <input type="checkbox" id="payment">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="checkout__input__checkbox">
+                                        <label for="paypal">
+                                            Paypal
+                                            <input type="checkbox" id="paypal">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="site-btn">SİPARİŞ VER</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        @*<div class="form-horizontal">
+                <h4>Tbl_SiparisDetay</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UyeId, "UyeId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("UyeId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UyeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Adres, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Adres, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Adres, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Sehir, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Sehir, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Sehir, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Ilce, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Ilce, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ilce, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Ulke, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Ulke, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ulke, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PostaKodu, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PostaKodu, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PostaKodu, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TelefonNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TelefonNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TelefonNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SiparisId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SiparisId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SiparisId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OdenenMiktar, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OdenenMiktar, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OdenenMiktar, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OdemeTipi, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OdemeTipi, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OdemeTipi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>*@
+
+
+        }
+        }
+        else
+        {
+        <div class="alert alert-danger">
+            <strong>Alışveriş sepetiniz boş !</strong>
+        </div>
+        }
+

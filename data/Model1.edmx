@@ -1,0 +1,940 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbEticaretModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ilceler">
+          <Key>
+            <PropertyRef Name="ilceId" />
+          </Key>
+          <Property Name="ilceId" Type="int" Nullable="false" />
+          <Property Name="SehirId" Type="int" Nullable="false" />
+          <Property Name="IlceAdi" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="SehirAdi" Type="nvarchar" MaxLength="55" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sehirler">
+          <Key>
+            <PropertyRef Name="SehirId" />
+          </Key>
+          <Property Name="SehirId" Type="int" Nullable="false" />
+          <Property Name="SehirAdi" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PlakaNo" Type="tinyint" Nullable="false" />
+          <Property Name="TelefonKodu" Type="int" Nullable="false" />
+          <Property Name="RowNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SemtMah">
+          <Key>
+            <PropertyRef Name="SemtMahId" />
+          </Key>
+          <Property Name="SemtMahId" Type="int" Nullable="false" />
+          <Property Name="SemtAdi" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="MahalleAdi" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PostaKodu" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="ilceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_Kategori">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdi" Type="varchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="KategoriResim" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_Roller">
+          <Key>
+            <PropertyRef Name="RolId" />
+          </Key>
+          <Property Name="RolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RolAdi" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tbl_Sepet">
+          <Key>
+            <PropertyRef Name="SepetId" />
+          </Key>
+          <Property Name="SepetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunId" Type="int" />
+          <Property Name="UyeId" Type="int" />
+          <Property Name="SepetDurumuId" Type="int" />
+          <Property Name="SiparisMiktari" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_SepetDurumu">
+          <Key>
+            <PropertyRef Name="SepetDurumuId" />
+          </Key>
+          <Property Name="SepetDurumuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SepetDurumu" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Tbl_SiparisDetay">
+          <Key>
+            <PropertyRef Name="SiparisDetayId" />
+          </Key>
+          <Property Name="SiparisDetayId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UyeId" Type="int" />
+          <Property Name="Ad" Type="varchar" MaxLength="50" />
+          <Property Name="Soyad" Type="varchar" MaxLength="50" />
+          <Property Name="Adres" Type="varchar" MaxLength="500" />
+          <Property Name="Sehir" Type="varchar" MaxLength="500" />
+          <Property Name="Ilce" Type="varchar" MaxLength="500" />
+          <Property Name="Ulke" Type="varchar" MaxLength="50" />
+          <Property Name="PostaKodu" Type="varchar" MaxLength="50" />
+          <Property Name="TelefonNo" Type="nchar" MaxLength="10" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="SiparisTarihi" Type="datetime" />
+          <Property Name="OdemeTipi" Type="varchar" MaxLength="50" />
+          <Property Name="ToplamFiyat" Type="int" />
+          <Property Name="SiparisDurumu" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_SiparisDurumu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="SiparisDurumu" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_SiparisUrunleri">
+          <Key>
+            <PropertyRef Name="SiparisId" />
+          </Key>
+          <Property Name="SiparisId" Type="int" Nullable="false" />
+          <Property Name="UrunId" Type="int" />
+          <Property Name="Adet" Type="int" />
+          <Property Name="UyeId" Type="int" />
+          <Property Name="SiparisDetayId" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_SlideImage">
+          <Key>
+            <PropertyRef Name="SlideId" />
+          </Key>
+          <Property Name="SlideId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SlideTitle" Type="varchar" MaxLength="500" />
+          <Property Name="SlideImage" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Tbl_Urun">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunAdi" Type="varchar" MaxLength="500" />
+          <Property Name="KategoriId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="OlusturulmaTarihi" Type="datetime" />
+          <Property Name="DegistirilmeTarihi" Type="datetime" />
+          <Property Name="Fiyat" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Acıklama" Type="varchar(max)" />
+          <Property Name="UrunResim" Type="varchar(max)" />
+          <Property Name="OneCıkan" Type="bit" />
+          <Property Name="Miktar" Type="int" />
+          <Property Name="Agırlık" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_Uye">
+          <Key>
+            <PropertyRef Name="UyeId" />
+          </Key>
+          <Property Name="UyeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Adi" Type="varchar" MaxLength="200" />
+          <Property Name="Soyadi" Type="varchar" MaxLength="200" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Sifre" Type="varchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="OlusturulmaTarihi" Type="datetime" />
+          <Property Name="DegistirilmeTarihi" Type="datetime" />
+          <Property Name="yetkiid" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_UyeRol">
+          <Key>
+            <PropertyRef Name="UyeRolId" />
+          </Key>
+          <Property Name="UyeRolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UyeId" Type="int" />
+          <Property Name="RolId" Type="int" />
+        </EntityType>
+        <EntityType Name="Ulkeler">
+          <Key>
+            <PropertyRef Name="UlkeId" />
+          </Key>
+          <Property Name="UlkeId" Type="int" Nullable="false" />
+          <Property Name="IkiliKod" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="UcluKod" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="UlkeAdi" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TelKodu" Type="nvarchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tbl_Sepet__UrunI__38996AB5">
+          <End Role="Tbl_Urun" Type="Self.Tbl_Urun" Multiplicity="0..1" />
+          <End Role="tbl_Sepet" Type="Self.tbl_Sepet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="tbl_Sepet">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Sipar__UyeId__3A81B327">
+          <End Role="Tbl_Uye" Type="Self.Tbl_Uye" Multiplicity="0..1" />
+          <End Role="Tbl_SiparisDetay" Type="Self.Tbl_SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Uye">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisDetay">
+              <PropertyRef Name="UyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tbl_Urun__Katego__398D8EEE">
+          <End Role="Tbl_Kategori" Type="Self.Tbl_Kategori" Multiplicity="0..1" />
+          <End Role="Tbl_Urun" Type="Self.Tbl_Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Kategori">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="Tbl_Urun">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ilceler_Sehirler">
+          <End Role="Sehirler" Type="Self.Sehirler" Multiplicity="1" />
+          <End Role="Ilceler" Type="Self.Ilceler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sehirler">
+              <PropertyRef Name="SehirId" />
+            </Principal>
+            <Dependent Role="Ilceler">
+              <PropertyRef Name="SehirId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SemtMah_Ilceler">
+          <End Role="Ilceler" Type="Self.Ilceler" Multiplicity="1" />
+          <End Role="SemtMah" Type="Self.SemtMah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilceler">
+              <PropertyRef Name="ilceId" />
+            </Principal>
+            <Dependent Role="SemtMah">
+              <PropertyRef Name="ilceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisDetay_Tbl_SiparisDurumu">
+          <End Role="Tbl_SiparisDurumu" Type="Self.Tbl_SiparisDurumu" Multiplicity="0..1" />
+          <End Role="Tbl_SiparisDetay" Type="Self.Tbl_SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_SiparisDurumu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisDetay">
+              <PropertyRef Name="SiparisDurumu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay">
+          <End Role="Tbl_SiparisDetay" Type="Self.Tbl_SiparisDetay" Multiplicity="0..1" />
+          <End Role="Tbl_SiparisUrunleri" Type="Self.Tbl_SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_SiparisDetay">
+              <PropertyRef Name="SiparisDetayId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisUrunleri">
+              <PropertyRef Name="SiparisDetayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisUrunleri_Tbl_Urun">
+          <End Role="Tbl_Urun" Type="Self.Tbl_Urun" Multiplicity="0..1" />
+          <End Role="Tbl_SiparisUrunleri" Type="Self.Tbl_SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisUrunleri">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisUrunleri_Tbl_Uye">
+          <End Role="Tbl_Uye" Type="Self.Tbl_Uye" Multiplicity="0..1" />
+          <End Role="Tbl_SiparisUrunleri" Type="Self.Tbl_SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Uye">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisUrunleri">
+              <PropertyRef Name="UyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Uye_Tbl_Roller">
+          <End Role="Tbl_Roller" Type="Self.Tbl_Roller" Multiplicity="0..1" />
+          <End Role="Tbl_Uye" Type="Self.Tbl_Uye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Roller">
+              <PropertyRef Name="RolId" />
+            </Principal>
+            <Dependent Role="Tbl_Uye">
+              <PropertyRef Name="yetkiid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbEticaretModelStoreContainer">
+          <EntitySet Name="Ilceler" EntityType="Self.Ilceler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sehirler" EntityType="Self.Sehirler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SemtMah" EntityType="Self.SemtMah" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Kategori" EntityType="Self.Tbl_Kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Roller" EntityType="Self.Tbl_Roller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Sepet" EntityType="Self.tbl_Sepet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SepetDurumu" EntityType="Self.tbl_SepetDurumu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_SiparisDetay" EntityType="Self.Tbl_SiparisDetay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_SiparisDurumu" EntityType="Self.Tbl_SiparisDurumu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_SiparisUrunleri" EntityType="Self.Tbl_SiparisUrunleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_SlideImage" EntityType="Self.Tbl_SlideImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Urun" EntityType="Self.Tbl_Urun" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Uye" EntityType="Self.Tbl_Uye" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_UyeRol" EntityType="Self.Tbl_UyeRol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ulkeler" EntityType="Self.Ulkeler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbl_Sepet__UrunI__38996AB5" Association="Self.FK__tbl_Sepet__UrunI__38996AB5">
+            <End Role="Tbl_Urun" EntitySet="Tbl_Urun" />
+            <End Role="tbl_Sepet" EntitySet="tbl_Sepet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Sipar__UyeId__3A81B327" Association="Self.FK__Tbl_Sipar__UyeId__3A81B327">
+            <End Role="Tbl_Uye" EntitySet="Tbl_Uye" />
+            <End Role="Tbl_SiparisDetay" EntitySet="Tbl_SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tbl_Urun__Katego__398D8EEE" Association="Self.FK__Tbl_Urun__Katego__398D8EEE">
+            <End Role="Tbl_Kategori" EntitySet="Tbl_Kategori" />
+            <End Role="Tbl_Urun" EntitySet="Tbl_Urun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ilceler_Sehirler" Association="Self.FK_Ilceler_Sehirler">
+            <End Role="Sehirler" EntitySet="Sehirler" />
+            <End Role="Ilceler" EntitySet="Ilceler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SemtMah_Ilceler" Association="Self.FK_SemtMah_Ilceler">
+            <End Role="Ilceler" EntitySet="Ilceler" />
+            <End Role="SemtMah" EntitySet="SemtMah" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisDetay_Tbl_SiparisDurumu" Association="Self.FK_Tbl_SiparisDetay_Tbl_SiparisDurumu">
+            <End Role="Tbl_SiparisDurumu" EntitySet="Tbl_SiparisDurumu" />
+            <End Role="Tbl_SiparisDetay" EntitySet="Tbl_SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay" Association="Self.FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay">
+            <End Role="Tbl_SiparisDetay" EntitySet="Tbl_SiparisDetay" />
+            <End Role="Tbl_SiparisUrunleri" EntitySet="Tbl_SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisUrunleri_Tbl_Urun" Association="Self.FK_Tbl_SiparisUrunleri_Tbl_Urun">
+            <End Role="Tbl_Urun" EntitySet="Tbl_Urun" />
+            <End Role="Tbl_SiparisUrunleri" EntitySet="Tbl_SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisUrunleri_Tbl_Uye" Association="Self.FK_Tbl_SiparisUrunleri_Tbl_Uye">
+            <End Role="Tbl_Uye" EntitySet="Tbl_Uye" />
+            <End Role="Tbl_SiparisUrunleri" EntitySet="Tbl_SiparisUrunleri" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Uye_Tbl_Roller" Association="Self.FK_Tbl_Uye_Tbl_Roller">
+            <End Role="Tbl_Roller" EntitySet="Tbl_Roller" />
+            <End Role="Tbl_Uye" EntitySet="Tbl_Uye" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbEticaretModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Roller">
+          <Key>
+            <PropertyRef Name="RolId" />
+          </Key>
+          <Property Name="RolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RolAdi" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_Uye" Relationship="dbEticaretModel.FK_Tbl_Uye_Tbl_Roller" FromRole="Tbl_Roller" ToRole="Tbl_Uye" />
+        </EntityType>
+        <EntityType Name="tbl_Sepet">
+          <Key>
+            <PropertyRef Name="SepetId" />
+          </Key>
+          <Property Name="SepetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunId" Type="Int32" />
+          <Property Name="UyeId" Type="Int32" />
+          <Property Name="SepetDurumuId" Type="Int32" />
+          <Property Name="SiparisMiktari" Type="Int32" />
+          <NavigationProperty Name="Tbl_Urun" Relationship="dbEticaretModel.FK__tbl_Sepet__UrunI__38996AB5" FromRole="tbl_Sepet" ToRole="Tbl_Urun" />
+        </EntityType>
+        <EntityType Name="tbl_SepetDurumu">
+          <Key>
+            <PropertyRef Name="SepetDurumuId" />
+          </Key>
+          <Property Name="SepetDurumuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SepetDurumu" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_SlideImage">
+          <Key>
+            <PropertyRef Name="SlideId" />
+          </Key>
+          <Property Name="SlideId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SlideTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="SlideImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_UyeRol">
+          <Key>
+            <PropertyRef Name="UyeRolId" />
+          </Key>
+          <Property Name="UyeRolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UyeId" Type="Int32" />
+          <Property Name="RolId" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="dbEticaretEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tbl_Roller" EntityType="Self.Tbl_Roller" />
+          <EntitySet Name="tbl_Sepet" EntityType="Self.tbl_Sepet" />
+          <EntitySet Name="tbl_SepetDurumu" EntityType="Self.tbl_SepetDurumu" />
+          <EntitySet Name="Tbl_SlideImage" EntityType="Self.Tbl_SlideImage" />
+          <EntitySet Name="Tbl_UyeRol" EntityType="Self.Tbl_UyeRol" />
+          <EntitySet Name="Tbl_Uye" EntityType="dbEticaretModel.Tbl_Uye" />
+          <EntitySet Name="Tbl_Kategori" EntityType="dbEticaretModel.Tbl_Kategori" />
+          <AssociationSet Name="FK_Tbl_Uye_Tbl_Roller" Association="dbEticaretModel.FK_Tbl_Uye_Tbl_Roller">
+            <End Role="Tbl_Roller" EntitySet="Tbl_Roller" />
+            <End Role="Tbl_Uye" EntitySet="Tbl_Uye" />
+          </AssociationSet>
+          <EntitySet Name="Ulkeler" EntityType="dbEticaretModel.Ulkeler" />
+          <EntitySet Name="Ilceler" EntityType="dbEticaretModel.Ilceler" />
+          <EntitySet Name="Sehirler" EntityType="dbEticaretModel.Sehirler" />
+          <EntitySet Name="SemtMah" EntityType="dbEticaretModel.SemtMah" />
+          <AssociationSet Name="FK_Ilceler_Sehirler" Association="dbEticaretModel.FK_Ilceler_Sehirler">
+            <End Role="Sehirler" EntitySet="Sehirler" />
+            <End Role="Ilceler" EntitySet="Ilceler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SemtMah_Ilceler" Association="dbEticaretModel.FK_SemtMah_Ilceler">
+            <End Role="Ilceler" EntitySet="Ilceler" />
+            <End Role="SemtMah" EntitySet="SemtMah" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_SiparisDurumu" EntityType="dbEticaretModel.Tbl_SiparisDurumu" />
+          <EntitySet Name="Tbl_SiparisUrunleri" EntityType="dbEticaretModel.Tbl_SiparisUrunleri" />
+          <AssociationSet Name="FK_Tbl_SiparisUrunleri_Tbl_Uye" Association="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Uye">
+            <End Role="Tbl_Uye" EntitySet="Tbl_Uye" />
+            <End Role="Tbl_SiparisUrunleri" EntitySet="Tbl_SiparisUrunleri" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_Urun" EntityType="dbEticaretModel.Tbl_Urun" />
+          <AssociationSet Name="FK__Tbl_Urun__Katego__398D8EEE" Association="dbEticaretModel.FK__Tbl_Urun__Katego__398D8EEE">
+            <End Role="Tbl_Kategori" EntitySet="Tbl_Kategori" />
+            <End Role="Tbl_Urun" EntitySet="Tbl_Urun" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Sepet__UrunI__38996AB5" Association="dbEticaretModel.FK__tbl_Sepet__UrunI__38996AB5">
+            <End Role="Tbl_Urun" EntitySet="Tbl_Urun" />
+            <End Role="tbl_Sepet" EntitySet="tbl_Sepet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisUrunleri_Tbl_Urun" Association="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Urun">
+            <End Role="Tbl_Urun" EntitySet="Tbl_Urun" />
+            <End Role="Tbl_SiparisUrunleri" EntitySet="Tbl_SiparisUrunleri" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_SiparisDetay" EntityType="dbEticaretModel.Tbl_SiparisDetay" />
+          <AssociationSet Name="FK__Tbl_Sipar__UyeId__3A81B327" Association="dbEticaretModel.FK__Tbl_Sipar__UyeId__3A81B327">
+            <End Role="Tbl_Uye" EntitySet="Tbl_Uye" />
+            <End Role="Tbl_SiparisDetay" EntitySet="Tbl_SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisDetay_Tbl_SiparisDurumu" Association="dbEticaretModel.FK_Tbl_SiparisDetay_Tbl_SiparisDurumu">
+            <End Role="Tbl_SiparisDurumu" EntitySet="Tbl_SiparisDurumu" />
+            <End Role="Tbl_SiparisDetay" EntitySet="Tbl_SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay" Association="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay">
+            <End Role="Tbl_SiparisDetay" EntitySet="Tbl_SiparisDetay" />
+            <End Role="Tbl_SiparisUrunleri" EntitySet="Tbl_SiparisUrunleri" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Tbl_Uye">
+          <Key>
+            <PropertyRef Name="UyeId" />
+          </Key>
+          <Property Name="UyeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adi" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Soyadi" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Sifre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="OlusturulmaTarihi" Type="DateTime" Precision="3" />
+          <Property Name="DegistirilmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="yetkiid" Type="Int32" />
+          <NavigationProperty Name="Tbl_Roller" Relationship="dbEticaretModel.FK_Tbl_Uye_Tbl_Roller" FromRole="Tbl_Uye" ToRole="Tbl_Roller" />
+          <NavigationProperty Name="Tbl_SiparisUrunleri" Relationship="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Uye" FromRole="Tbl_Uye" ToRole="Tbl_SiparisUrunleri" />
+          <NavigationProperty Name="Tbl_SiparisDetay" Relationship="dbEticaretModel.FK__Tbl_Sipar__UyeId__3A81B327" FromRole="Tbl_Uye" ToRole="Tbl_SiparisDetay" />
+        </EntityType>
+        <EntityType Name="Tbl_Kategori">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="KategoriResim" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_Urun" Relationship="dbEticaretModel.FK__Tbl_Urun__Katego__398D8EEE" FromRole="Tbl_Kategori" ToRole="Tbl_Urun" />
+        </EntityType>
+        <Association Name="FK_Tbl_Uye_Tbl_Roller">
+          <End Type="dbEticaretModel.Tbl_Roller" Role="Tbl_Roller" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_Uye" Role="Tbl_Uye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Roller">
+              <PropertyRef Name="RolId" />
+            </Principal>
+            <Dependent Role="Tbl_Uye">
+              <PropertyRef Name="yetkiid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Ulkeler">
+          <Key>
+            <PropertyRef Name="UlkeId" />
+          </Key>
+          <Property Name="UlkeId" Type="Int32" Nullable="false" />
+          <Property Name="IkiliKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="UcluKod" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="UlkeAdi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TelKodu" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Ilceler">
+          <Key>
+            <PropertyRef Name="ilceId" />
+          </Key>
+          <Property Name="ilceId" Type="Int32" Nullable="false" />
+          <Property Name="SehirId" Type="Int32" Nullable="false" />
+          <Property Name="IlceAdi" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="SehirAdi" Type="String" Nullable="false" MaxLength="55" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sehirler" Relationship="dbEticaretModel.FK_Ilceler_Sehirler" FromRole="Ilceler" ToRole="Sehirler" />
+          <NavigationProperty Name="SemtMah" Relationship="dbEticaretModel.FK_SemtMah_Ilceler" FromRole="Ilceler" ToRole="SemtMah" />
+        </EntityType>
+        <EntityType Name="Sehirler">
+          <Key>
+            <PropertyRef Name="SehirId" />
+          </Key>
+          <Property Name="SehirId" Type="Int32" Nullable="false" />
+          <Property Name="SehirAdi" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PlakaNo" Type="Byte" Nullable="false" />
+          <Property Name="TelefonKodu" Type="Int32" Nullable="false" />
+          <Property Name="RowNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ilceler" Relationship="dbEticaretModel.FK_Ilceler_Sehirler" FromRole="Sehirler" ToRole="Ilceler" />
+        </EntityType>
+        <EntityType Name="SemtMah">
+          <Key>
+            <PropertyRef Name="SemtMahId" />
+          </Key>
+          <Property Name="SemtMahId" Type="Int32" Nullable="false" />
+          <Property Name="SemtAdi" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="MahalleAdi" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PostaKodu" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="ilceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ilceler" Relationship="dbEticaretModel.FK_SemtMah_Ilceler" FromRole="SemtMah" ToRole="Ilceler" />
+        </EntityType>
+        <Association Name="FK_Ilceler_Sehirler">
+          <End Type="dbEticaretModel.Sehirler" Role="Sehirler" Multiplicity="1" />
+          <End Type="dbEticaretModel.Ilceler" Role="Ilceler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sehirler">
+              <PropertyRef Name="SehirId" />
+            </Principal>
+            <Dependent Role="Ilceler">
+              <PropertyRef Name="SehirId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SemtMah_Ilceler">
+          <End Type="dbEticaretModel.Ilceler" Role="Ilceler" Multiplicity="1" />
+          <End Type="dbEticaretModel.SemtMah" Role="SemtMah" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ilceler">
+              <PropertyRef Name="ilceId" />
+            </Principal>
+            <Dependent Role="SemtMah">
+              <PropertyRef Name="ilceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tbl_SiparisDurumu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="SiparisDurumu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tbl_SiparisDetay" Relationship="dbEticaretModel.FK_Tbl_SiparisDetay_Tbl_SiparisDurumu" FromRole="Tbl_SiparisDurumu" ToRole="Tbl_SiparisDetay" />
+        </EntityType>
+        <EntityType Name="Tbl_SiparisUrunleri">
+          <Key>
+            <PropertyRef Name="SiparisId" />
+          </Key>
+          <Property Name="SiparisId" Type="Int32" Nullable="false" />
+          <Property Name="UrunId" Type="Int32" />
+          <Property Name="Adet" Type="Int32" />
+          <Property Name="UyeId" Type="Int32" />
+          <Property Name="SiparisDetayId" Type="Int32" />
+          <NavigationProperty Name="Tbl_Uye" Relationship="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Uye" FromRole="Tbl_SiparisUrunleri" ToRole="Tbl_Uye" />
+          <NavigationProperty Name="Tbl_Urun" Relationship="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Urun" FromRole="Tbl_SiparisUrunleri" ToRole="Tbl_Urun" />
+          <NavigationProperty Name="Tbl_SiparisDetay" Relationship="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay" FromRole="Tbl_SiparisUrunleri" ToRole="Tbl_SiparisDetay" />
+        </EntityType>
+        <Association Name="FK_Tbl_SiparisUrunleri_Tbl_Uye">
+          <End Type="dbEticaretModel.Tbl_Uye" Role="Tbl_Uye" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_SiparisUrunleri" Role="Tbl_SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Uye">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisUrunleri">
+              <PropertyRef Name="UyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tbl_Urun">
+          <Key>
+            <PropertyRef Name="UrunId" />
+          </Key>
+          <Property Name="UrunId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="KategoriId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="OlusturulmaTarihi" Type="DateTime" Precision="3" />
+          <Property Name="DegistirilmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="Fiyat" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Acıklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UrunResim" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OneCıkan" Type="Boolean" />
+          <Property Name="Miktar" Type="Int32" />
+          <Property Name="Agırlık" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tbl_Kategori" Relationship="dbEticaretModel.FK__Tbl_Urun__Katego__398D8EEE" FromRole="Tbl_Urun" ToRole="Tbl_Kategori" />
+          <NavigationProperty Name="tbl_Sepet" Relationship="dbEticaretModel.FK__tbl_Sepet__UrunI__38996AB5" FromRole="Tbl_Urun" ToRole="tbl_Sepet" />
+          <NavigationProperty Name="Tbl_SiparisUrunleri" Relationship="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Urun" FromRole="Tbl_Urun" ToRole="Tbl_SiparisUrunleri" />
+        </EntityType>
+        <Association Name="FK__Tbl_Urun__Katego__398D8EEE">
+          <End Type="dbEticaretModel.Tbl_Kategori" Role="Tbl_Kategori" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_Urun" Role="Tbl_Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Kategori">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="Tbl_Urun">
+              <PropertyRef Name="KategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Sepet__UrunI__38996AB5">
+          <End Type="dbEticaretModel.Tbl_Urun" Role="Tbl_Urun" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.tbl_Sepet" Role="tbl_Sepet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="tbl_Sepet">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisUrunleri_Tbl_Urun">
+          <End Type="dbEticaretModel.Tbl_Urun" Role="Tbl_Urun" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_SiparisUrunleri" Role="Tbl_SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Urun">
+              <PropertyRef Name="UrunId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisUrunleri">
+              <PropertyRef Name="UrunId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tbl_SiparisDetay">
+          <Key>
+            <PropertyRef Name="SiparisDetayId" />
+          </Key>
+          <Property Name="SiparisDetayId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UyeId" Type="Int32" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Adres" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Sehir" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Ilce" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Ulke" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostaKodu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TelefonNo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SiparisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="OdemeTipi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ToplamFiyat" Type="Int32" />
+          <Property Name="SiparisDurumu" Type="Int32" />
+          <NavigationProperty Name="Tbl_Uye" Relationship="dbEticaretModel.FK__Tbl_Sipar__UyeId__3A81B327" FromRole="Tbl_SiparisDetay" ToRole="Tbl_Uye" />
+          <NavigationProperty Name="Tbl_SiparisDurumu" Relationship="dbEticaretModel.FK_Tbl_SiparisDetay_Tbl_SiparisDurumu" FromRole="Tbl_SiparisDetay" ToRole="Tbl_SiparisDurumu" />
+          <NavigationProperty Name="Tbl_SiparisUrunleri" Relationship="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay" FromRole="Tbl_SiparisDetay" ToRole="Tbl_SiparisUrunleri" />
+        </EntityType>
+        <Association Name="FK__Tbl_Sipar__UyeId__3A81B327">
+          <End Type="dbEticaretModel.Tbl_Uye" Role="Tbl_Uye" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_SiparisDetay" Role="Tbl_SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Uye">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisDetay">
+              <PropertyRef Name="UyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisDetay_Tbl_SiparisDurumu">
+          <End Type="dbEticaretModel.Tbl_SiparisDurumu" Role="Tbl_SiparisDurumu" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_SiparisDetay" Role="Tbl_SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_SiparisDurumu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisDetay">
+              <PropertyRef Name="SiparisDurumu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay">
+          <End Type="dbEticaretModel.Tbl_SiparisDetay" Role="Tbl_SiparisDetay" Multiplicity="0..1" />
+          <End Type="dbEticaretModel.Tbl_SiparisUrunleri" Role="Tbl_SiparisUrunleri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_SiparisDetay">
+              <PropertyRef Name="SiparisDetayId" />
+            </Principal>
+            <Dependent Role="Tbl_SiparisUrunleri">
+              <PropertyRef Name="SiparisDetayId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbEticaretModelStoreContainer" CdmEntityContainer="dbEticaretEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dbEticaretModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Roller">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_Roller">
+              <MappingFragment StoreEntitySet="Tbl_Roller">
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+                <ScalarProperty Name="RolAdi" ColumnName="RolAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Sepet">
+            <EntityTypeMapping TypeName="dbEticaretModel.tbl_Sepet">
+              <MappingFragment StoreEntitySet="tbl_Sepet">
+                <ScalarProperty Name="SiparisMiktari" ColumnName="SiparisMiktari" />
+                <ScalarProperty Name="SepetId" ColumnName="SepetId" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="SepetDurumuId" ColumnName="SepetDurumuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SepetDurumu">
+            <EntityTypeMapping TypeName="dbEticaretModel.tbl_SepetDurumu">
+              <MappingFragment StoreEntitySet="tbl_SepetDurumu">
+                <ScalarProperty Name="SepetDurumuId" ColumnName="SepetDurumuId" />
+                <ScalarProperty Name="SepetDurumu" ColumnName="SepetDurumu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_SlideImage">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_SlideImage">
+              <MappingFragment StoreEntitySet="Tbl_SlideImage">
+                <ScalarProperty Name="SlideId" ColumnName="SlideId" />
+                <ScalarProperty Name="SlideTitle" ColumnName="SlideTitle" />
+                <ScalarProperty Name="SlideImage" ColumnName="SlideImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_UyeRol">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_UyeRol">
+              <MappingFragment StoreEntitySet="Tbl_UyeRol">
+                <ScalarProperty Name="UyeRolId" ColumnName="UyeRolId" />
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="RolId" ColumnName="RolId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Uye">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_Uye">
+              <MappingFragment StoreEntitySet="Tbl_Uye">
+                <ScalarProperty Name="yetkiid" ColumnName="yetkiid" />
+                <ScalarProperty Name="DegistirilmeTarihi" ColumnName="DegistirilmeTarihi" />
+                <ScalarProperty Name="OlusturulmaTarihi" ColumnName="OlusturulmaTarihi" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Soyadi" ColumnName="Soyadi" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Kategori">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_Kategori">
+              <MappingFragment StoreEntitySet="Tbl_Kategori">
+                <ScalarProperty Name="KategoriResim" ColumnName="KategoriResim" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ulkeler">
+            <EntityTypeMapping TypeName="dbEticaretModel.Ulkeler">
+              <MappingFragment StoreEntitySet="Ulkeler">
+                <ScalarProperty Name="TelKodu" ColumnName="TelKodu" />
+                <ScalarProperty Name="UlkeAdi" ColumnName="UlkeAdi" />
+                <ScalarProperty Name="UcluKod" ColumnName="UcluKod" />
+                <ScalarProperty Name="IkiliKod" ColumnName="IkiliKod" />
+                <ScalarProperty Name="UlkeId" ColumnName="UlkeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ilceler">
+            <EntityTypeMapping TypeName="dbEticaretModel.Ilceler">
+              <MappingFragment StoreEntitySet="Ilceler">
+                <ScalarProperty Name="SehirAdi" ColumnName="SehirAdi" />
+                <ScalarProperty Name="IlceAdi" ColumnName="IlceAdi" />
+                <ScalarProperty Name="SehirId" ColumnName="SehirId" />
+                <ScalarProperty Name="ilceId" ColumnName="ilceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sehirler">
+            <EntityTypeMapping TypeName="dbEticaretModel.Sehirler">
+              <MappingFragment StoreEntitySet="Sehirler">
+                <ScalarProperty Name="RowNumber" ColumnName="RowNumber" />
+                <ScalarProperty Name="TelefonKodu" ColumnName="TelefonKodu" />
+                <ScalarProperty Name="PlakaNo" ColumnName="PlakaNo" />
+                <ScalarProperty Name="SehirAdi" ColumnName="SehirAdi" />
+                <ScalarProperty Name="SehirId" ColumnName="SehirId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SemtMah">
+            <EntityTypeMapping TypeName="dbEticaretModel.SemtMah">
+              <MappingFragment StoreEntitySet="SemtMah">
+                <ScalarProperty Name="ilceId" ColumnName="ilceId" />
+                <ScalarProperty Name="PostaKodu" ColumnName="PostaKodu" />
+                <ScalarProperty Name="MahalleAdi" ColumnName="MahalleAdi" />
+                <ScalarProperty Name="SemtAdi" ColumnName="SemtAdi" />
+                <ScalarProperty Name="SemtMahId" ColumnName="SemtMahId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_SiparisDurumu">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_SiparisDurumu">
+              <MappingFragment StoreEntitySet="Tbl_SiparisDurumu">
+                <ScalarProperty Name="SiparisDurumu" ColumnName="SiparisDurumu" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_SiparisUrunleri">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_SiparisUrunleri">
+              <MappingFragment StoreEntitySet="Tbl_SiparisUrunleri">
+                <ScalarProperty Name="SiparisDetayId" ColumnName="SiparisDetayId" />
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+                <ScalarProperty Name="SiparisId" ColumnName="SiparisId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Urun">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_Urun">
+              <MappingFragment StoreEntitySet="Tbl_Urun">
+                <ScalarProperty Name="Agırlık" ColumnName="Agırlık" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="OneCıkan" ColumnName="OneCıkan" />
+                <ScalarProperty Name="UrunResim" ColumnName="UrunResim" />
+                <ScalarProperty Name="Acıklama" ColumnName="Acıklama" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="DegistirilmeTarihi" ColumnName="DegistirilmeTarihi" />
+                <ScalarProperty Name="OlusturulmaTarihi" ColumnName="OlusturulmaTarihi" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="UrunId" ColumnName="UrunId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_SiparisDetay">
+            <EntityTypeMapping TypeName="dbEticaretModel.Tbl_SiparisDetay">
+              <MappingFragment StoreEntitySet="Tbl_SiparisDetay">
+                <ScalarProperty Name="SiparisDurumu" ColumnName="SiparisDurumu" />
+                <ScalarProperty Name="ToplamFiyat" ColumnName="ToplamFiyat" />
+                <ScalarProperty Name="OdemeTipi" ColumnName="OdemeTipi" />
+                <ScalarProperty Name="SiparisTarihi" ColumnName="SiparisTarihi" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelefonNo" ColumnName="TelefonNo" />
+                <ScalarProperty Name="PostaKodu" ColumnName="PostaKodu" />
+                <ScalarProperty Name="Ulke" ColumnName="Ulke" />
+                <ScalarProperty Name="Ilce" ColumnName="Ilce" />
+                <ScalarProperty Name="Sehir" ColumnName="Sehir" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="SiparisDetayId" ColumnName="SiparisDetayId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

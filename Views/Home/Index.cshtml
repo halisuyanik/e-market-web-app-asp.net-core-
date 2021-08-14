@@ -1,0 +1,152 @@
+﻿
+@model IEnumerable<on_e_commerce.data.Tbl_Urun>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/home/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/home/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/home/css/elegant-icons.css" rel="stylesheet" />
+<link href="~/Content/home/css/nice-select.css" rel="stylesheet" />
+<link href="~/Content/home/css/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/home/css/owl.carousel.min.css" rel="stylesheet" />
+<link href="~/Content/home/css/slicknav.min.css" rel="stylesheet" />
+<link href="~/Content/home/css/style.css" rel="stylesheet" />
+
+
+<div class="col-lg-12 col-md-12">
+    <div class="product__discount">
+        <div class="section-title product__discount__title">
+            <h2>FIRSAT SEPETİ</h2>
+        </div>
+        <div class="row">
+            <div class="product__discount__slider owl-carousel">
+                @foreach (var item in Model)
+                {
+                    int c = Convert.ToInt16(item.Fiyat);
+                    int b = c * 120 / 100;
+                    <div class="col-lg-4">
+                        <div class="product__discount__item">
+                            <div class="product__discount__item__pic set-bg" style="height:330px; width:330px; margin-left:30px;" data-setbg="@item.UrunResim">
+                                <div class="product__discount__percent">-20%</div>
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+
+                                    <li><a class="add-to-cart" data-name="@item.UrunAdi" data-price="@item.Fiyat" data-urunid="@item.UrunId"><i class="fa fa-shopping-cart"></i></a></li>
+
+                                </ul>
+                            </div>
+                            <div class="product__discount__item__text">
+                                <span></span>
+                                <h5><a href="#">@item.UrunAdi</a></h5>
+
+                                <div class="product__item__price">@item.Fiyat TL<span>@b TL</span></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<section class="featured spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Öne Çıkan Ürünler</h2>
+                </div>
+                <div class="featured__controls">
+                    <ul>
+                        <li class="active" data-filter="*">Hepsi</li>
+                        <li data-filter=".meyvevesebze">Meyve & Sebze</li>
+                        <li data-filter=".icecek">Gıda & Şekerleme</li>
+                        <li data-filter=".sütvekahvaltı">Süt & Kahvaltı</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row featured__filter" id="MixItUp8AD1C7">
+            @foreach (var item in Model)
+            {
+
+                var b = Model.Where(k => k.KategoriId == 1);
+                foreach (var itemb in b)
+                {
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix meyvevesebze ">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="@itemb.UrunResim">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a class="add-to-cart" data-name="@item.UrunAdi" data-price="@item.Fiyat" data-urunid="@item.UrunId"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="/Home/UrunDetail/@item.UrunId">@itemb.UrunAdi</a></h6>
+                                <h5>@itemb.Fiyat TL</h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+
+                var a = Model.Where(k => k.KategoriId == 33);
+                foreach (var itema in a)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix icecek">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="@itema.UrunResim">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a class="add-to-cart" data-name="@item.UrunAdi" data-price="@item.Fiyat" data-urunid="@item.UrunId"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="#">@itema.UrunAdi</a></h6>
+                                <h5>@itema.Fiyat TL</h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                var c = Model.Where(k => k.KategoriId == 34);
+                foreach (var itemc in c)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix sütvekahvaltı">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="@itemc.UrunResim">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a class="add-to-cart" data-name="@item.UrunAdi" data-price="@item.Fiyat" data-urunid="@item.UrunId"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="#">@itemc.UrunAdi</a></h6>
+                                <h5>@itemc.Fiyat TL</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+
+
+
+            }
+        </div>
+
+    </div>
+</section>
+

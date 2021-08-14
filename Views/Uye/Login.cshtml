@@ -1,0 +1,146 @@
+﻿
+@model on_e_commerce.data.Tbl_Uye
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>KOZZMOS</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" href="~/Uploads/favicon.ico" type="image/x-icon" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/uyelogreg/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+    
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100 p-t-90 p-b-30">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <form class="login100-form validate-form">
+
+                            <span class="login100-form-title p-b-40" style="margin-left:10px; margin-top: -40px;font-family:'Century Gothic';">
+                                <a  href="/Home/Index">
+
+                                    <img src="~/Content/home/img/cllogo3.png" />
+
+
+                                </a>
+                            </span>
+
+
+
+                            <div class="text-center p-t-55">
+                                @if (@TempData["girissonuc"] != null)
+                                {
+                                <div class="alert alert-danger " role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <div class="alert alert-heading">Hata</div>
+                                    @TempData["girissonuc"]
+
+                                </div>
+
+                                    @*<div class="toast alert alert-danger" role="alert" id="mytost" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="mr-auto">Hata</strong>
+                    <button type="button" class="ml-2 mb-1 close" onclick="toastx" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    @TempData["girissonuc"]
+                </div>
+            </div>*@
+                                }
+
+                                <div class="form-group">
+                                    <label class="control-label">GİRİŞ YAP</label>
+
+
+                                </div>
+                            </div>
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Lütfen e-mailinizi giriniz: ex@abc.xyz">
+                                <input class="input100" type="text" id="email" name="email" placeholder="E-mail">
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-20" data-validate="Lütfen şifrenizi giriniz.">
+                                <span class="btn-show-pass">
+                                    <i class="fa fa fa-eye"></i>
+                                </span>
+                                <input class="input100" type="password" id="pass" name="pass" placeholder="Şifre">
+
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <div class="container-login100-form-btn">
+                                <button type="submit"  class="login100-form-btn">
+                                    Giriş Yap
+                                </button>
+                                
+                            </div>
+
+                            <div class="flex-col-c">
+                                <span class="txt2 p-b-10">
+                                    Hesabınız yok mu?
+                                </span>
+
+                                <a href="/Uye/Create/" class="txt3 bo1 hov1">
+                                    HEMEN KAYIT OL
+                                </a>
+                            </div>
+
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/vendor/animsition/js/animsition.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/vendor/bootstrap/js/popper.js"></script>
+        <script src="~/Content/uyelogreg/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/vendor/select2/select2.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/vendor/daterangepicker/moment.min.js"></script>
+        <script src="~/Content/uyelogreg/vendor/daterangepicker/daterangepicker.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/vendor/countdowntime/countdowntime.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Content/uyelogreg/js/main.js"></script>
+
+    </body>
+</html>
+

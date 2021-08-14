@@ -1,0 +1,64 @@
+﻿@model on_e_commerce.data.Tbl_Kategori
+
+@{
+    /**/
+
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("Delete", "AdminKategori", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <h3>" @Model.KategoriAdi " kategorisini silmek istiyor musun?</h3>
+    <hr>
+    <div class="alert alert-danger " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        Lütfen kategoriyi silmeden önce kategoriye ait ürünleri silin !
+
+    </div>
+
+
+    <div class="card shadow">
+        <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.KategoriId)
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Kategori Adı</label>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.KategoriAdi, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        @Html.ValidationMessageFor(model => model.KategoriAdi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-4">Kategori Resmi</label>
+                    <div class="col-md-8">
+                        <div class="avatar avatar-md">
+                            <img src="@Model.KategoriResim" alt="@Model.KategoriAdi" width="203" height="72">
+                            @Html.ValidationMessageFor(model => model.KategoriResim, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <a href="/AdminKategori/Index/"> <inp type="button" class="btn btn-danger"><span class="fe fe-chevron-left fe-12"></span>Geri Dön</a>
+                    <button type="submit" class="btn btn-secondary"><span class="fe fe-trash fe-12 mr-2"></span>Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="toast alert alert-danger" role="alert" id="mytost" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <strong class="mr-auto">Hata</strong>
+    </div>
+    <div class="toast-body">
+        @TempData["kategorisonuc"]
+    </div>
+</div>

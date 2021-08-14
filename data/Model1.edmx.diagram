@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="553d3433a4c045439245e5fce6128e1f" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="dbEticaretModel.sysdiagrams" Width="1.5" PointX="9.125" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_Roller" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbEticaretModel.tbl_Sepet" Width="1.5" PointX="6.125" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbEticaretModel.tbl_SepetDurumu" Width="1.5" PointX="9.875" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_SlideImage" Width="1.5" PointX="8.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_UyeRol" Width="1.5" PointX="11.625" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_Uye" Width="1.5" PointX="0.625" PointY="6.375" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_Kategori" Width="1.5" PointX="0.75" PointY="1.875" />
+        <AssociationConnector Association="dbEticaretModel.FK_Tbl_Uye_Tbl_Roller" />
+        <EntityTypeShape EntityType="dbEticaretModel.Ulkeler" Width="1.5" PointX="10.875" PointY="9" />
+        <EntityTypeShape EntityType="dbEticaretModel.Ilceler" Width="1.5" PointX="10" PointY="10.875" />
+        <EntityTypeShape EntityType="dbEticaretModel.Sehirler" Width="1.5" PointX="8.25" PointY="10.875" />
+        <EntityTypeShape EntityType="dbEticaretModel.SemtMah" Width="1.5" PointX="11.75" PointY="10.875" />
+        <AssociationConnector Association="dbEticaretModel.FK_Ilceler_Sehirler" />
+        <AssociationConnector Association="dbEticaretModel.FK_SemtMah_Ilceler" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_SiparisDurumu" Width="1.5" PointX="5.125" PointY="11.75" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_SiparisUrunleri" Width="1.5" PointX="3" PointY="7.25" />
+        <AssociationConnector Association="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Uye" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_Urun" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="dbEticaretModel.FK__Tbl_Urun__Katego__398D8EEE" />
+        <AssociationConnector Association="dbEticaretModel.FK__tbl_Sepet__UrunI__38996AB5" />
+        <AssociationConnector Association="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_Urun" />
+        <EntityTypeShape EntityType="dbEticaretModel.Tbl_SiparisDetay" Width="1.5" PointX="7.375" PointY="5.625" />
+        <AssociationConnector Association="dbEticaretModel.FK__Tbl_Sipar__UyeId__3A81B327" />
+        <AssociationConnector Association="dbEticaretModel.FK_Tbl_SiparisDetay_Tbl_SiparisDurumu" />
+        <AssociationConnector Association="dbEticaretModel.FK_Tbl_SiparisUrunleri_Tbl_SiparisDetay" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

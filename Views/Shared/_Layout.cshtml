@@ -1,0 +1,608 @@
+﻿@using on_e_commerce.Models
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/Uploads/favicon.ico" type="image/x-icon" />
+    <title>KOZZMOS</title>
+    <style>
+
+        .show-cart li {
+            display: flex;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-img-top {
+            width: 200px;
+            height: 200px;
+            align-self: center;
+        }
+    </style>
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+
+    <link href="~/Content/home/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/home/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/home/css/elegant-icons.css" rel="stylesheet" />
+    <link href="~/Content/home/css/nice-select.css" rel="stylesheet" />
+    <link href="~/Content/home/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/home/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/Content/home/css/slicknav.min.css" rel="stylesheet" />
+    <link href="~/Content/home/css/style.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+</head>
+
+<body>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <div class="humberger__menu__overlay"></div>
+    <div class="humberger__menu__wrapper">
+        <div class="humberger__menu__logo">
+            <a href="/Home/Index/"><img src="~/Content/home/img/logodeneme2.png" /></a>
+        </div>
+        <div class="humberger__menu__cart">
+            <ul>
+                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#cart"><i class="fa fa-shopping-bag"></i> <span class="total-count">0</span></a></li>
+            </ul>
+        </div>
+        <div class="humberger__menu__widget">
+            <div class="header__top__right__language">
+                <div>Türkçe</div>
+                <span class="arrow_carrot-down"></span>
+                <ul>
+                    <li><a href="#">Türkçe</a></li>
+                    <li><a href="#">English</a></li>
+                </ul>
+            </div>
+            <div class="header__top__right__auth">
+
+                @if (Session["uyeid"] == null)
+                {
+                    <a href="/Uye/Login">Giriş Yap</a>
+                    <a href="/Uye/Create">Kayıt Ol</a>
+                }
+                @if (Session["uyeid"] != null)
+                {
+
+                    <div class="header__top__right__language">
+                        <div>@Session["uyead"] @Session["uyesoyadi"]</div>
+                        <span class="arrow_carrot-down"></span>
+                        <ul>
+                            <li><a href="/Uye/Details"> Profilim </a></li>
+                            <li><a href="#"> Siparişlerim </a></li>
+                            @if (Convert.ToInt32(Session["uyeyetkiid"]) == 1 || Convert.ToInt32(Session["uyeyetkiid"]) == 3)
+                            {
+                                <li><a href="/Admin/Index" target="_blank">Admin Panel</a></li>
+                            }
+                            <li><a href="/Uye/Logout">Çıkış Yap</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                <li class="active"><a href="/Home/Index">Home</a></li>
+                <li><a href="">Shop</a></li>
+                <li>
+                    <a>Pages</a>
+                    <ul class="header__menu__dropdown">
+                        <li><a href="">Shop Details</a></li>
+                        <li><a href="">Shoping Cart</a></li>
+                        <li><a href="">Check Out</a></li>
+                        <li><a href="">Blog Details</a></li>
+                    </ul>
+                </li>
+                <li><a href="./blog.html">Blog</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <div class="header__top__right__social">
+            <a href="#"><i class="fa fa-instagram"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+        </div>
+        <div class="humberger__menu__contact">
+            <ul>
+                <li><i class="fa fa-envelope"></i>halisuyanik@outlook.com</li>
+            </ul>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i>halisuyanik@outlook.com</li>
+                                <li>100 TL ve üzeri alışverişlerinizde kargo bedava  !</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href=""><i class="fa fa-instagram"></i></a>
+                                <a href=""><i class="fa fa-facebook"></i></a>
+                                <a href=""><i class="fa fa-twitter"></i></a>
+                                <a href=""><i class="fa fa-linkedin"></i></a>
+                                <a href=""><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+                            <div class="header__top__right__language">
+                                <div>Türkçe</div>
+                                <span class="arrow_carrot-down"></span>
+                                <ul>
+                                    <li><a href="#">Türkçe</a></li>
+                                    <li><a href="#">English</a></li>
+                                </ul>
+                            </div>
+                            <div class="header__top__right__auth ">
+
+                                @if (Session["uyeid"] == null)
+                                {
+                                    <div class="row row-space">
+                                        <a href="/Uye/Login" style="padding-right:10px;">GİRİŞ YAP</a>
+
+                                        <img src="~/Content/home/planet.png" width="20" height="20" />  <a href="/Uye/Create" style="padding-left:10px;"> KAYIT OL</a>
+                                    </div>
+
+                                }
+                                @if (Session["uyeid"] != null)
+                                {
+
+                                    <div class="header__top__right__language">
+                                        <div>@Session["uyead"] @Session["uyesoyadi"]</div>
+                                        <span class="arrow_carrot-down"></span>
+                                        <ul>
+                                            <li><a href="/Uye/Details"> Profilim </a></li>
+                                            <li><a href="#"> Siparişlerim </a></li>
+                                            @if (Convert.ToInt32(Session["uyeyetkiid"]) == 1 || Convert.ToInt32(Session["uyeyetkiid"]) == 3)
+                                            {
+                                                <li><a href="/Admin/Index" target="_blank">Admin Panel</a></li>
+                                            }
+                                            <li><a href="/Uye/Logout">Çıkış Yap</a></li>
+                                        </ul>
+                                    </div>
+
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="/Home/Index"><img src="~/Content/home/img/logodeneme2.png" style="margin-left:45px;" /></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu" style="padding: 34px 0;">
+                        <ul>
+                            <li class="active"><a href="/Home/Index">Home</a></li>
+                            <li><a href="">Shop</a></li>
+                            <li>
+                                <a href="">Pages</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="">Shop Details</a></li>
+                                    <li><a href="">Shoping Cart</a></li>
+                                    <li><a href="">Check Out</a></li>
+                                    <li><a href="">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="">Blog</a></li>
+                            <li><a href="">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__cart" id="sepetdiv" style="padding: 34px 0;">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#cart"><i class="fa fa-shopping-bag"></i> <span class="total-count">0</span></a></li>
+                        </ul>
+                        <div class="header__cart__price">Toplam:<span class="total-cart"></span> TL</div>
+                    </div>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                @{Html.RenderAction("KategoriPartial", "Home");}
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="#">
+                                <div class="hero__search__categories">
+                                    All Categories
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" placeholder="What do yo u need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+65 11.188.888</h5>
+                                <span>support 24/7 time</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        @RenderBody()
+
+        <!-- Modal -->
+        <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">SEPET</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <table class="show-cart table"></table>
+                        <div>Toplam Fiyat: <span class="total-cart"></span>TL</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="sepeti-temizle" class="clear-cart btn btn-danger ">Sepeti Temizle</button>
+                        <intput type="submit" id="sepeti-tamamla" class="btn btn-primary">Sepeti Onayla</intput>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <footer class="footer spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__about__logo">
+                            <img src="~/Content/home/img/logodeneme2.png" alt="">
+                        </div>
+                        <ul>
+                            <li>Address: 60-49 Road 11378 New York</li>
+                            <li>Phone: +65 11.188.888</li>
+                            <li>Email: hello@colorlib.com</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                    <div class="footer__widget">
+                        <h6>Useful Links</h6>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">About Our Shop</a></li>
+                            <li><a href="#">Secure Shopping</a></li>
+                            <li><a href="#">Delivery infomation</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Our Sitemap</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Who We Are</a></li>
+                            <li><a href="#">Our Services</a></li>
+                            <li><a href="#">Projects</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Innovation</a></li>
+                            <li><a href="#">Testimonials</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__widget">
+                        <h6>Join Our Newsletter Now</h6>
+                        <p>Get E-mail updates about our latest shop and special offers.</p>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your mail">
+                            <button type="submit" class="site-btn">Subscribe</button>
+                        </form>
+                        <div class="footer__widget__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer__copyright">
+                        <div class="footer__copyright__text">
+                            <p>
+
+                            </p>
+                        </div>
+                        <div class="footer__copyright__payment"><img src="~/Content/home/img/payment-item.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/Content/home/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/home/js/bootstrap.min.js"></script>
+    <script src="~/Content/home/js/jquery.nice-select.min.js"></script>
+    <script src="~/Content/home/js/jquery-ui.min.js"></script>
+    <script src="~/Content/home/js/jquery.slicknav.js"></script>
+    <script src="~/Content/home/js/mixitup.min.js"></script>
+    <script src="~/Content/home/js/owl.carousel.min.js"></script>
+    <script src="~/Content/home/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+
+</html>
+
+
+
+<script>
+    var shoppingCart = (function () {
+        // =============================
+        // Private methods and propeties
+        // =============================
+        cart = [];
+
+        // Constructor
+        function Item(urunid, name, price, count) {
+            this.name = name;
+            this.price = price;
+            this.count = count;
+            this.urunid = urunid;
+        }
+
+        // Save cart
+        function saveCart() {
+            sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
+        }
+
+        // Load cart
+        function loadCart() {
+            cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+        }
+        if (sessionStorage.getItem("shoppingCart") != null) {
+            loadCart();
+        }
+
+        var obj = {};
+
+        // Add to cart
+        obj.addItemToCart = function (urunid, name, price, count) {
+            for (var item in cart) {
+                if (cart[item].urunid === urunid) {
+                    cart[item].count++;
+
+                    saveCart();
+                    return;
+                }
+            }
+            var item = new Item(urunid, name, price, count);
+            cart.push(item);
+            saveCart();
+        }
+        // Set count from item
+        obj.setCountForItem = function (urunid, count) {
+            for (var i in cart) {
+                if (cart[i].urunid === urunid) {
+                    cart[i].count = count;
+                    break;
+                }
+            }
+        };
+        // Remove item from cart
+        obj.removeItemFromCart = function (urunid) {
+            for (var item in cart) {
+                if (cart[item].urunid === urunid) {
+                    cart[item].count--;
+                    if (cart[item].count === 0) {
+                        cart.splice(item, 1);
+                    }
+                    break;
+                }
+            }
+            saveCart();
+        }
+
+        // Remove all items from cart
+        obj.removeItemFromCartAll = function (urunid) {
+            for (var item in cart) {
+                if (cart[item].urunid === urunid) {
+                    cart.splice(item, 1);
+                    break;
+                }
+            }
+            saveCart();
+        }
+
+        // Clear cart
+        obj.clearCart = function () {
+            cart = [];
+            saveCart();
+        }
+
+        // Count cart
+        obj.totalCount = function () {
+            var totalCount = 0;
+            for (var item in cart) {
+                totalCount += cart[item].count;
+            }
+            return totalCount;
+        }
+
+        // Total cart
+        obj.totalCart = function () {
+            var totalCart = 0;
+            for (var item in cart) {
+                totalCart += cart[item].price * cart[item].count;
+            }
+            return Number(totalCart.toFixed(2));
+        }
+
+        // List cart
+        obj.listCart = function () {
+            var cartCopy = [];
+            for (i in cart) {
+                item = cart[i];
+                itemCopy = {};
+                for (p in item) {
+                    itemCopy[p] = item[p];
+
+                }
+                itemCopy.total = Number(item.price * item.count).toFixed(2);
+                cartCopy.push(itemCopy)
+            }
+            return cartCopy;
+        }
+
+
+        return obj;
+    })();
+
+    $('.add-to-cart').click(function (event) {
+        event.preventDefault();
+        var urunid = $(this).data('urunid');
+        var name = $(this).data('name');
+        var price = Number($(this).data('price'));
+        shoppingCart.addItemToCart(urunid, name, price, 1);
+        displayCart();
+    });
+
+    // Clear items
+    $('.clear-cart').click(function () {
+        shoppingCart.clearCart();
+        displayCart();
+    });
+
+
+    $('#sepeti-tamamla').click(function () {
+        var cartArray = shoppingCart.listCart();
+        $.ajax({
+                type: 'POST',
+                url: "/Home/SepetAction/",
+                data: { urunler: cartArray },
+                success: function (data) {
+                    window.location = "/Home/SepetiOnayla";
+                }
+        });
+
+       
+    });
+    $('#sepeti-temizle').click(function () {
+        $.ajax({
+            url: "/Home/SepetiTemizle/",
+        });
+    });
+
+    function displayCart() {
+        var cartArray = shoppingCart.listCart();
+        var output = "";
+        for (var i in cartArray) {
+            output += "<tr>"
+                + "<td name='urunadi'>" + cartArray[i].name + "</td>"
+                + "<td name='urunfiyati'>" + cartArray[i].price + " TL</td>"
+                + "<td><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-urunid=" + cartArray[i].urunid + ">-</button>"
+                + "<input type='text' name='urunsayisi' align='right' class='item-count form-control' data-urunid='" + cartArray[i].urunid + "' value='" + cartArray[i].count + "'>"
+                + "<button class='plus-item btn btn-primary input-group-addon' data-urunid=" + cartArray[i].urunid + ">+</button></div></td>"
+                + "<td><button class='delete-item btn btn-danger' data-urunid=" + cartArray[i].urunid + ">X</button></td>"
+                + " = "
+                + "<td name='sepettoplamfiyat'>" + cartArray[i].total + " TL</td>"
+                + "</tr>";
+
+
+        }
+        $('.show-cart').html(output);
+        $('.total-cart').html(shoppingCart.totalCart());
+        $('.total-count').html(shoppingCart.totalCount());
+    }
+
+    // Delete item button
+
+    $('.show-cart').on("click", ".delete-item", function (event) {
+        var urunid = $(this).data('urunid')
+        shoppingCart.removeItemFromCartAll(urunid);
+        displayCart();
+    })
+
+
+    // -1
+    $('.show-cart').on("click", ".minus-item", function (event) {
+        var urunid = $(this).data('urunid')
+        shoppingCart.removeItemFromCart(urunid);
+        displayCart();
+    })
+    // +1
+    $('.show-cart').on("click", ".plus-item", function (event) {
+        var urunid = $(this).data('urunid')
+        shoppingCart.addItemToCart(urunid);
+        displayCart();
+    })
+
+    // Item count input
+    $('.show-cart').on("change", ".item-count", function (event) {
+        var urunid = $(this).data('urunid');
+        var count = Number($(this).val());
+        shoppingCart.setCountForItem(urunid, count);
+        displayCart();
+    });
+
+    displayCart();
+
+
+
+
+
+</script>
