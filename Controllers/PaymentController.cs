@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace on_e_commerce.Controllers
 {
     public class PaymentController : Controller
     {
-        public readonly dbEticaretEntities db = new dbEticaretEntities();
+        public readonly dbEticaretEntities1 db = new dbEticaretEntities1();
         // GET: Payment
         public ActionResult Payment()
         {
@@ -26,32 +26,44 @@ namespace on_e_commerce.Controllers
             {
                 int toplamfiyat = 0;
                 List<Item> sepet = (List<Item>)Session["sepet"];
-                if (Session["sepet"] != null)
+     
+                if (sepet != null)
                 {
+                    string siparisbarkod = Guid.NewGuid().ToString();
 
-                    Tbl_SiparisUrunleri siparisurunleri = new Tbl_SiparisUrunleri();
                     for (int i = 0; i < sepet.Count; i++)
                     {
+                        db.Tbl_Urun.Find( sepet[i].Urun.UrunId).Miktar = db.Tbl_Urun.Find(sepet[i].Urun.UrunId).Miktar - sepet[i].Count;
+                        Tbl_SiparisUrunleri siparisurunleri = new Tbl_SiparisUrunleri();
                         siparisurunleri.Adet = sepet[i].Count;
                         siparisurunleri.UrunId = sepet[i].Urun.UrunId;
-                        siparisurunleri.SiparisDetayId = SiparisDetay.SiparisDetayId;
+                        siparisurunleri.SiparisBarkod = siparisbarkod;
+
                         if (Session["uyeid"] != null)
                         {
                             siparisurunleri.UyeId = Convert.ToInt16(Session["uyeid"]);
                         }
+                        toplamfiyat += Convert.ToInt16(sepet[i].Price) * sepet[i].Count;
                         db.Tbl_SiparisUrunleri.Add(siparisurunleri);
-                        toplamfiyat += Convert.ToInt16(sepet[i].Urun.Fiyat);
                     }
+                   
                     SiparisDetay.Sehir = il;
                     SiparisDetay.Ilce = ilce;
                     SiparisDetay.Ulke = "Türkiye";
                     SiparisDetay.ToplamFiyat = toplamfiyat;
                     SiparisDetay.SiparisDurumu = 1;
                     SiparisDetay.SiparisTarihi = DateTime.Now;
+                    if (Session["uyeid"] != null)
+                    {
+                        SiparisDetay.UyeId = Convert.ToInt16(Session["uyeid"]);
+                    }
+                    SiparisDetay.SiparisBarkod = siparisbarkod;
                     db.Tbl_SiparisDetay.Add(SiparisDetay);
-                    db.SaveChanges();
 
-                    return RedirectToAction("OdemeBasarılı", new { OdemeFiyatToplam = toplamfiyat });
+
+                    db.SaveChanges();
+                    Session["sepet"] = null;
+                    return RedirectToAction("Siparislerim", "Hesabim" /*, new { OdemeFiyatToplam = toplamfiyat }*/);
                 }
                 else
                 {
@@ -60,10 +72,9 @@ namespace on_e_commerce.Controllers
             }
             return View();
         }
-        public ActionResult OdemeBasarılı(int OdemeFiyatToplam)
+        public ActionResult OdemeBasarılı()
         {
-            ViewBag["toplamfiyat"] = "";
-            ViewBag["toplamfiyat"] = OdemeFiyatToplam;
+
             return View();
         }
         public ActionResult OdemeBasarısız()
