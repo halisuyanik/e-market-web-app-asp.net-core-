@@ -1,0 +1,431 @@
+﻿@model IEnumerable<on_e_commerce.data.Tbl_SiparisDetay>
+@using on_e_commerce.data
+@using on_e_commerce.Models
+@{
+    dbEticaretEntities1 db = new dbEticaretEntities1();
+}
+@{
+    ViewBag.Title = "Siparislerim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    if (Session["uyeid"] != null)
+    {
+        <style>
+            .card {
+                z-index: 0;
+               
+                padding-bottom: 20px;
+                margin-top: 10px;
+                margin-bottom: 90px;
+                border-radius: 10px
+            }
+
+            .top {
+                padding-top: 15px;
+                padding-left: 13% !important;
+                padding-right: 13% !important
+            }
+
+            #progressbar {
+                margin-bottom: 30px;
+                overflow: hidden;
+                color: #455A64;
+                padding-left: 0px;
+                margin-top: 30px
+            }
+
+                #progressbar li {
+                    list-style-type: none;
+                    font-size: 13px;
+                    width: 25%;
+                    float: left;
+                    position: relative;
+                    font-weight: 400
+                }
+
+                #progressbar .step0:before {
+                    font-family: FontAwesome;
+                    content: "\f10c";
+                    color: #fff
+                }
+
+                #progressbar li:before {
+                    width: 40px;
+                    height: 40px;
+                    line-height: 45px;
+                    display: block;
+                    font-size: 20px;
+                    background: #C5CAE9;
+                    border-radius: 50%;
+                    margin: auto;
+                    padding: 0px
+                }
+
+                #progressbar li:after {
+                    content: '';
+                    width: 100%;
+                    height: 12px;
+                    background: #C5CAE9;
+                    position: absolute;
+                    left: 0;
+                    top: 16px;
+                    z-index: -1
+                }
+
+                #progressbar li:last-child:after {
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px;
+                    position: absolute;
+                    left: -50%
+                }
+
+                #progressbar li:nth-child(2):after,
+                #progressbar li:nth-child(3):after {
+                    left: -50%
+                }
+
+                #progressbar li:first-child:after {
+                    border-top-left-radius: 10px;
+                    border-bottom-left-radius: 10px;
+                    position: absolute;
+                    left: 50%
+                }
+
+                #progressbar li:last-child:after {
+                    border-top-right-radius: 10px;
+                    border-bottom-right-radius: 10px
+                }
+
+                #progressbar li:first-child:after {
+                    border-top-left-radius: 10px;
+                    border-bottom-left-radius: 10px
+                }
+
+                #progressbar li.active:before,
+                #progressbar li.active:after {
+                    background: #651FFF
+                }
+
+                #progressbar li.active:before {
+                    font-family: FontAwesome;
+                    content: "\f00c"
+                }
+
+            .icon {
+                width: 60px;
+                height: 60px;
+                margin-right: 15px
+            }
+
+            .icon-content {
+                padding-bottom: 20px
+            }
+
+            .a-box, .a-box-group > .a-box.a-color-alternate-background, .a-box-group > .a-box.a-color-offset-background {
+                border: 1px #D5D9D9 solid;
+            }
+
+                .a-box .a-box-inner {
+                    border-radius: 8px;
+                    position: relative;
+                    padding: 14px 18px;
+                }
+
+            .a-box {
+                display: block;
+                border-radius: 8px;
+                background-color: #fff;
+                height: auto;
+                background-color: #ECEFF1;
+                margin-top: 20px;
+            }
+
+
+            .a-box-2 .a-box-2-inner {
+                border-radius: 8px;
+                position: relative;
+                padding: 14px 18px;
+            }
+
+            .a-box-2 {
+                display: block;
+                border-radius: 8px;
+                background-color: #fff;
+                height: auto;
+                background-color: white;
+                margin-top: 20px;
+            }
+            a, a:link, a:visited {
+                text-decoration: none;
+                color: #007185;
+            }
+
+                a:hover {
+                    color: #7fad39
+                }
+        </style>
+
+
+        <div class="container ">
+            <a href="/Hesabim/Index">Hesabım</a> > <span style="color: #7fad39; ">Siparişlerim</span>
+
+            <h4 style="margin-top:20px;">Siparişlerim</h4>
+
+
+            <div class="row" style="margin-top:20px;">
+
+                <div class="col-lg-3 font-weight-bolder">Siparişler</div>
+
+                <a href="#" class=" col-lg-3 ">İptal Edilen Siparişler</a>
+
+            </div>
+
+            <div class="col-lg-2" style="display: block; border: 1px #7fad39 solid; border-radius: 155px; margin-top: 5px; "></div>
+
+
+            <div clas="col-lg-12" style="display: block; border: 1px #D5D9D9 solid; border-radius: 55px;"></div>
+
+            <div class="row" style="margin-top:10px;">
+                <h5 style="margin-top:10px; margin-right:5px;">"" sipariş<span> verildi </span></h5>
+                <select class="select2 select2-container select2-container--default  " name="siparistarihifiltre">
+                    <option value="last30day">Son 30 gün</option>
+                    <option value="last3month">Son 3 ay</option>
+                    <option value="all2021">2021</option>
+                    <option value="all2020">2020</option>
+                </select>
+            </div>
+
+            @foreach (var item in Model)
+            {
+        <div class="row">
+            <div class=" col-lg-10">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row d-flex justify-content-between px-3 top">
+                            <div class="d-flex">
+                                <h5>Sipariş No <span class="text-primary font-weight-bold">#@item.SiparisBarkod</span></h5>
+                            </div>
+                            <div class="d-flex flex-column text-sm-right">
+                                <p class="mb-0">Sipariş Tarihi <span> @item.SiparisTarihi</span></p>
+                                <p>Kargo Takip No <span class="font-weight-bold">234094567242423422898</span></p>
+                            </div>
+                        </div> <!-- Add class 'active' to progress -->
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12">
+                                <ul id="progressbar" class="text-center">
+
+                                    @if (item.SiparisDurumu == 1)
+                                    {
+                                        <li class="statu1 active step0"></li>
+                                        <li class="statu2 step0"></li>
+                                        <li class="statu3 step0"></li>
+                                        <li class="statu4 step0"></li>
+                                    }
+
+                                    @if (item.SiparisDurumu == 2)
+                                    {
+                                        <li class="statu1 active step0"></li>
+                                        <li class="statu2 active step0"></li>
+                                        <li class="statu3 step0"></li>
+                                        <li class="statu4 step0"></li>
+                                    }
+                                    @if (item.SiparisDurumu == 3)
+                                    {
+                                        <li class="statu1 active step0"></li>
+                                        <li class="statu2 active step0"></li>
+                                        <li class="statu3 active step0"></li>
+                                        <li class="statu4 step0"></li>
+                                    }
+                                    @if (item.SiparisDurumu == 3)
+                                    {
+                                        <li class="statu1 active step0"></li>
+                                        <li class="statu2 active step0"></li>
+                                        <li class="statu3 active step0"></li>
+                                        <li class="statu4 active step0"></li>
+                                    }
+
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row  justify-content-between top">
+                            <div class="row d-flex icon-content">
+                                <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Siparişiniz<br>Hazırlanıyor</p>
+                                </div>
+                            </div>
+                            <div class="row d-flex icon-content">
+                                <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Siparişiniz<br>Kargoya Verildi</p>
+                                </div>
+                            </div>
+                            <div class="row d-flex icon-content">
+                                <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Siparişiniz<br>Dağıtıma Çıktı</p>
+                                </div>
+                            </div>
+                            <div class="row d-flex icon-content">
+                                <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                                <div class="d-flex flex-column">
+                                    <p class="font-weight-bold">Siparişiniz<br>Size Ulaştı</p>
+                                </div>
+                            </div>
+                            <div class="col-12  a-box ">
+                                <div class=" a-box-inner row">
+                                    <div class="col-lg-3" style="color: #6f6f6f;">
+                                        <div class="humberger__menu__widget">
+                                            <div class="header__top__right__language">
+                                                Alıcı  <span class="arrow_carrot-down"></span> <br>
+                                                @*<div class="font-weight-lighter">@item.Ad @item.Soyad</div>*@
+
+
+                                                <div class="font-weight-lighter">@item.Ad @item.Soyad</div>
+
+                                                <ul>
+                                                    <li><a >@item.Ad @item.Soyad</a></li>
+                                                    <li><a >@item.Adres</a></li>
+                                                    <li><a >@item.TelefonNo</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                        @{
+                                            int toplamadet = 0;
+
+
+                                            List<Tbl_SiparisUrunleri> fls = db.Tbl_SiparisUrunleri.Where(a => a.SiparisBarkod == item.SiparisBarkod).ToList();
+
+                                            foreach (var b in fls)
+                                            {
+                                                toplamadet += Convert.ToInt16(b.Adet);
+                                            }
+
+                                        }
+                                        <div class="col-lg-3" style="color: #6f6f6f;">Sipariş Özeti<br><div class="font-weight-lighter">@fls.Count farklı ürün (@toplamadet adet) </div></div>
+                                        <div class="col-lg-3" style="color: #6f6f6f;">Tutar<br><div class="font-weight-lighter">@item.ToplamFiyat ₺</div></div>
+                                        <button class="col-lg-3 btn btn-outline-secondary" )">Sipariş Detayı</button>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between px-3 ">
+                        <div class="col-12">
+
+
+
+
+
+                            <div class="shoping__cart__table">
+                                @foreach (var a in fls)
+                                {
+
+                                    <div class=" a-box-2">
+                                        <div class="a-box-2-inner ">
+                                            <table>
+                                                <tr>
+                                                    <td class="shoping__cart__item">
+                                                        <img src="@a.Tbl_Urun.UrunResim" width="80" height="80" alt="@a.Tbl_Urun.UrunResim">
+                                                        <h5>@a.Tbl_Urun.UrunAdi</h5>
+                                                    </td>
+
+                                                    <td class="shoping__cart__price">
+                                                        <h5>@a.Adet adet</h5>
+                                                    </td>
+                                                    <td class="shoping__cart__total">
+                                                        <h5>@a.Tbl_Urun.Fiyat ₺</h5>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class=" col-lg-2">
+                <div class="card">
+                    <div class="card-body text-info">
+                        <h5 class="card-title">Info card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            }
+
+
+        </div>
+
+
+     
+
+    }
+    else
+    {
+
+        <style>
+            a, a:link, a:visited {
+                text-decoration: none;
+                color: #007185;
+            }
+
+                a:hover {
+                    color: #7fad39
+                }
+        </style>
+
+        <div class="container-lg ">
+            <a href="/Hesabim/Index">Hesabım</a> > <span style="color: #7fad39; ">Siparişlerim</span>
+
+            <h4 style="margin-top:20px;">Siparişlerim</h4>
+
+
+            <div class="row" style="margin-top:20px;">
+
+                <div class="col-lg-3 font-weight-bolder">Siparişler</div>
+
+                <a href="#" class=" col-lg-3 ">İptal Edilen Siparişler</a>
+
+            </div>
+
+            <div class="col-lg-2" style="display: block; border: 1px #7fad39 solid; border-radius: 155px; margin-top: 5px; "></div>
+
+
+            <div clas="col-lg-12" style="display: block; border: 1px #D5D9D9 solid; border-radius: 55px;"></div>
+
+            <div class="row" style="margin-top:10px;">
+                <h5 style="margin-top:10px; margin-right:5px;">37 sipariş<span> verildi </span></h5>
+                <select class="select2 select2-container select2-container--default  " name="siparistarihifiltre">
+                    <option value="last30day">Son 30 gün</option>
+                    <option value="last3month">Son 3 ay</option>
+                    <option value="all2021">2021</option>
+                    <option value="all2020">2020</option>
+                </select>
+            </div>
+
+        </div>
+
+        //Response.Redirect("~/Uye/Login");
+
+
+    }
+}
+

@@ -1,0 +1,331 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    if (Session["uyeid"] != null)
+    {
+        <style>
+
+            a-section:last-child {
+                margin-bottom: 0;
+            }
+
+            .ya-personalized, .ya-two-col-container {
+                max-width: 1000px;
+            }
+
+            .ya-one-col-container, .ya-personalized, .ya-two-col-container {
+                margin: 0 auto;
+            }
+
+            .a-section {
+                margin-bottom: 22px;
+            }
+
+            .a-spacing-base {
+                margin-bottom: 12px !important;
+            }
+
+            .a-row {
+                width: 100%;
+            }
+
+            .ya-card-cell {
+                display: table-cell;
+                height: 100%;
+                padding-left: 20px;
+                width: 340px;
+            }
+            /*.ya-card-cell:first-child {
+                   padding-left: 0;
+                   width: 320px;
+            }*/
+            a, a:link, a:visited {
+                text-decoration: none;
+                color: #007185;
+            }
+
+            .ya-card__whole-card-link {
+                height: 100%;
+                display: block;
+            }
+
+            .ya-card, .ya-card--rich {
+                height: 100%;
+            }
+
+            .a-box {
+                display: block;
+                border-radius: 8px;
+                background-color: #fff;
+                height: 120px;
+                width: 318px;
+                margin-top: 20px;
+            }
+
+                .a-box:hover {
+                    background-color: #D5D9D9;
+                }
+
+            .a-box, .a-box-group > .a-box.a-color-alternate-background, .a-box-group > .a-box.a-color-offset-background {
+                border: 1px #D5D9D9 solid;
+            }
+
+                .a-box .a-box-inner {
+                    border-radius: 8px;
+                    position: relative;
+                    padding: 14px 18px;
+                }
+
+            .a-ws div.a-column, div.a-column {
+                margin-right: 2%;
+                float: left;
+                min-height: 1px;
+                overflow: visible;
+            }
+
+            .a-row .a-span3, .a-ws .a-row .a-ws-span3 {
+                width: 23.448%;
+            }
+
+            a, a:link, a:visited {
+                text-decoration: none;
+                color: #007185;
+            }
+
+            img {
+                vertical-align: top;
+            }
+
+            img {
+                max-width: 100%;
+                border: 0;
+            }
+
+            .a-ws .a-ws-span12, div.a-column.a-span-last {
+                margin-right: 0;
+                float: right;
+            }
+
+            .a-ws div.a-column, div.a-column {
+                margin-right: 2%;
+                float: left;
+                min-height: 1px;
+                overflow: visible;
+            }
+
+            .a-column.a-span-last {
+                margin-right: 0;
+                float: right;
+            }
+
+            .a-row .a-span9, .a-ws .a-row .a-ws-span9 {
+                width: 74.448%;
+            }
+
+            h1.a-spacing-none, h2.a-spacing-none, h3.a-spacing-none, h4.a-spacing-none {
+                padding-bottom: 0;
+            }
+
+            .ya-card__heading--rich {
+                color: #111;
+                font-size: 17px;
+            }
+
+            .a-spacing-none, .a-ws .a-ws-spacing-none {
+                margin-bottom: 0 !important;
+            }
+
+            .a-text-normal {
+                font-weight: 400 !important;
+                font-style: normal !important;
+                text-transform: none !important;
+                text-decoration: none !important;
+            }
+
+            .a-color-secondary, .a-color-tertiary {
+                color: #565959 !important;
+            }
+        </style>
+        <div class="container">
+            <div class="a-section ya-personalized">
+                <div class="a-row a-spacing-base">
+                    <h2>Hesabım</h2>
+
+                </div>
+                <div class="row">
+                    <div class=" col-lg-4">
+                        <a href="/Hesabim/Siparislerim/" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/order._CB659959031_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">Siparişlerim</h2>
+                                            <div>
+                                                <span class="a-color-secondary">Kargonuzu takip edin, ürünleri iade edin veya tekrar satın alın </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class=" col-lg-4">
+                        <a href="/Hesabim/Siparislerim/" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/security._CB657832518_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">Giriş Yapma ve Güvenlik</h2>
+                                            <div>
+                                                <span class="a-color-secondary">Oturum açma bilgilerini, adınızı ve cep telefonu numaranızı düzenleyin</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class=" col-lg-4">
+                        <a href="/Hesabim/Siparislerim/" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/payment._CB659959031_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">Ödemeleriniz</h2>
+                                            <div>
+                                                <span class="a-color-secondary">Ödeme yöntemlerini ve ayarlarını yönetin, bakiyeleri ve teklifleri görüntüleyin</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-lg-4">
+                        <a href="/Hesabim/Siparislerim/@Session["uyeid"]" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/YA_icon_address_01._CB657832518_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">Adres</h2>
+                                            <div>
+                                                <span class="a-color-secondary">Sipariş ve hediyeler için adres ve teslimat tercihlerini düzenleyin</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class=" col-lg-4">
+                        <a href="/Hesabim/Siparislerim/" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/gift_card._CB659959031_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">
+                                                Hediye Kartları
+                                            </h2>
+                                            <div>
+                                                <span class="a-color-secondary">Bakiyenizi görüntüleyin veya bir Hediye Kartı yükleyin</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class=" col-lg-4">
+                        <a href="/Hesabim/Siparislerim/" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/YA_icon_Message_3._CB657832518_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">
+                                                Mesaj Merkezi
+
+                                            </h2>
+                                            <div>
+                                                <span class="a-color-secondary">Pazaryeri Satıcısı Mesajlarınızı Görüntüleyin</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class=" col-lg-4 ">
+                        <a href="/Hesabim/Siparislerim/" class="ya-card__whole-card-link">
+                            <div class="a-box ya-card--rich">
+                                <div class="a-box-inner">
+                                    <div class="a-row">
+
+                                        <div class="a-column a-span3">
+                                            <img src="https://images-na.ssl-images-amazon.com/images/G/41/x-locale/cs/help/images/gateway/self-service/YA_icon_Help_1._CB657832518_.png" />
+                                        </div>
+                                        <div class="a-column a-span9 a-span-last">
+                                            <h2 class="a-spacing-none ya-card__heading--rich a-text-normal">
+                                                Yardım
+
+                                            </h2>
+                                            <div>
+                                                <span class="a-color-secondary">Mevcut yardım konularına göz atın</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+<div class="container">
+    <a href="/Uye/Login/">GİRİŞ YAP</a>
+</div>
+        
+    }
+
+}
+
