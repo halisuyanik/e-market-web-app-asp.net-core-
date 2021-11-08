@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using on_e_commerce.data;
+using Scrypt;
 
 namespace on_e_commerce.Controllers
 {
@@ -29,18 +30,31 @@ namespace on_e_commerce.Controllers
         [HttpPost]
         public ActionResult Login(string email, string pass)
         {
+            Session.Abandon();
+            ScryptEncoder encoder = new ScryptEncoder();
+            var log = db.Tbl_Uye.Where(u=>u.Email==email).SingleOrDefault();
             
-            var log = db.Tbl_Uye.Where(u=>u.Email==email && u.Sifre==pass).SingleOrDefault();
-            if (log !=null)
+            if (log!=null)
             {
-                TempData["girissonuc"] = "";
-                Session["uyeid"] = log.UyeId;
-                Session["uyead"] = log.Adi;
-                Session["uyesoyadi"] = log.Soyadi;
-                Session["uyeemail"] = log.Email;
-                Session["uyeyetkiid"] = log.yetkiid;
-                return RedirectToAction("Index", "Home");
+                bool isValidUser = encoder.Compare(pass, log.Sifre);
+                if (isValidUser)
+                {
+                    TempData["girissonuc"] = "";
+                    Session["uyeid"] = log.UyeId;
+                    Session["uyead"] = log.Adi;
+                    Session["uyesoyadi"] = log.Soyadi;
+                    Session["uyeemail"] = log.Email;
+                    Session["uyeyetkiid"] = log.yetkiid;
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["girissonuc"] = "Kullanıcı adı veya şifre yanlış.";
+                    return RedirectToAction("Login", "Uye");
+                }
+               
             }
+            
             else
             {
                 TempData["girissonuc"]= "Kullanıcı adı veya şifre yanlış.";
@@ -50,17 +64,30 @@ namespace on_e_commerce.Controllers
         public ActionResult Loginoto(string email, string pass)
         {
 
-            var log = db.Tbl_Uye.Where(u => u.Email == email && u.Sifre == pass).SingleOrDefault();
+            ScryptEncoder encoder = new ScryptEncoder();
+            var log = db.Tbl_Uye.Where(u => u.Email == email).SingleOrDefault();
+
             if (log != null)
             {
-                TempData["girissonuc"] = "";
-                Session["uyeid"] = log.UyeId;
-                Session["uyead"] = log.Adi;
-                Session["uyesoyadi"] = log.Soyadi;
-                Session["uyeemail"] = log.Email;
-                Session["uyeyetkiid"] = log.yetkiid;
-                return RedirectToAction("Index", "Home");
+                bool isValidUser = encoder.Compare(pass, log.Sifre);
+                if (isValidUser)
+                {
+                    TempData["girissonuc"] = "";
+                    Session["uyeid"] = log.UyeId;
+                    Session["uyead"] = log.Adi;
+                    Session["uyesoyadi"] = log.Soyadi;
+                    Session["uyeemail"] = log.Email;
+                    Session["uyeyetkiid"] = log.yetkiid;
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["girissonuc"] = "Kullanıcı adı veya şifre yanlış.";
+                    return RedirectToAction("Login", "Uye");
+                }
+
             }
+
             else
             {
                 TempData["girissonuc"] = "Kullanıcı adı veya şifre yanlış.";
@@ -95,7 +122,7 @@ namespace on_e_commerce.Controllers
         }
 
         // GET: Uye/Create
-        public ActionResult Create()
+        public ActionResult Signup()
         {
             return View();
         }
@@ -105,8 +132,9 @@ namespace on_e_commerce.Controllers
         // Daha fazla bilgi için bkz. https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UyeId,Adi,Soyadi,Email,Sifre,IsActive,IsDelete,OlusturulmaTarihi,DegistirilmeTarihi,ConfirmPassword")] Tbl_Uye tbl_Uye)
+        public ActionResult Signup([Bind(Include = "Adi,Soyadi,Email,Sifre")] Tbl_Uye tbl_Uye , string confirmpassword)
         {
+            Session.Abandon();
             TempData["kayitsonuc"] = null;
             if (ModelState.IsValid)
             {
@@ -116,13 +144,15 @@ namespace on_e_commerce.Controllers
                 {
                     if (tbl_Uye.Sifre.Length >= 8)
                     {
-                        if (tbl_Uye.Sifre == tbl_Uye.ConfirmPassword)
+                        if (tbl_Uye.Sifre == confirmpassword)
                         {
+                            ScryptEncoder encoder = new ScryptEncoder();
                             tbl_Uye.OlusturulmaTarihi = DateTime.Now;
                             tbl_Uye.yetkiid = 2;
+                            tbl_Uye.Sifre = encoder.Encode(tbl_Uye.Sifre);
                             db.Tbl_Uye.Add(tbl_Uye);
                             db.SaveChanges();
-                            return RedirectToAction("Loginoto", new { email = tbl_Uye.Email, pass = tbl_Uye.Sifre });
+                            return RedirectToAction("Loginoto", new { email = tbl_Uye.Email, pass = confirmpassword });
                         }
                         else
                         {
