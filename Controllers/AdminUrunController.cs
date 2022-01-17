@@ -1,189 +1,210 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
-using on_e_commerce.data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using on_e_commerce.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace on_e_commerce.Controllers
 {
+    [Authorize(Roles = "Admin, Manager, Editor")]
     public class AdminUrunController : Controller
     {
-        private dbEticaretEntities db = new dbEticaretEntities();
+        private readonly dbEticaretContext _context;
+
+        public AdminUrunController(dbEticaretContext context)
+        {
+            _context = context;
+        }
 
         // GET: AdminUrun
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var tbl_Urun = db.Tbl_Urun.Include(t => t.Tbl_Kategori);
-            return View(tbl_Urun.ToList());
+            var dbEticaretContext = _context.TblUruns.Include(t => t.Kategori);
+            return View(await dbEticaretContext.ToListAsync());
         }
 
         // GET: AdminUrun/Details/5
-        public ActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Tbl_Urun tbl_Urun = db.Tbl_Urun.Find(id);
-            if (tbl_Urun == null)
+
+            var tblUrun = await _context.TblUruns
+                .Include(t => t.Kategori)
+                .FirstOrDefaultAsync(m => m.UrunId == id);
+            if (tblUrun == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(tbl_Urun);
+
+            return View(tblUrun);
         }
 
         // GET: AdminUrun/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            ViewBag.KategoriId = new SelectList(db.Tbl_Kategori, "KategoriId", "KategoriAdi");
+            ViewData["KategoriId"] = new SelectList(_context.TblKategoris, "KategoriId", "KategoriAdi");
             return View();
         }
 
         // POST: AdminUrun/Create
-        // Aşırı gönderim saldırılarından korunmak için bağlamak istediğiniz belirli özellikleri etkinleştirin. 
-        // Daha fazla bilgi için bkz. https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UrunId,UrunAdi,KategoriId,IsActive,IsDelete,OlusturulmaTarihi,DegistirilmeTarihi,Fiyat,Acıklama,UrunResim,OneCıkan,Miktar,Agırlık")] Tbl_Urun tbl_Urun , string agirliktürü, HttpPostedFileBase gorsel)
+        public async Task<IActionResult> Create([Bind("UrunId,UrunAdi,KategoriId,IsActive,IsDelete,OlusturulmaTarihi,DegistirilmeTarihi,Fiyat,Acıklama,UrunResim,OneCıkan,Miktar,Agırlık")] TblUrun tblUrun, string agirliktürü, IFormFile gorsel)
         {
             if (ModelState.IsValid)
             {
-                if (gorsel != null)
+                if (gorsel!=null)
                 {
-                    WebImage img = new WebImage(gorsel.InputStream);
-                    FileInfo fotoinfo = new FileInfo(gorsel.FileName);
-                    string newfoto = Guid.NewGuid().ToString() + fotoinfo.Extension;
-                    img.Save("~/Uploads/UrunGorsel/" + newfoto);
-                    tbl_Urun.UrunResim = "/Uploads/UrunGorsel/" + newfoto;
-                    tbl_Urun.OlusturulmaTarihi = DateTime.Now;
-                    tbl_Urun.Agırlık = tbl_Urun.Agırlık +" "+ agirliktürü;
-                    db.Tbl_Urun.Add(tbl_Urun);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    string imageExtension = Path.GetExtension(gorsel.FileName);
+                    string imageName = Guid.NewGuid() + imageExtension;
+                    tblUrun.UrunResim = "wwwroot/Uploads/UrunGorsel/" + imageName;
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/Uploads/UrunGorsel/{imageName}");
+                    using var stream = new FileStream(path, FileMode.Create);
+                    await gorsel.CopyToAsync(stream);
+
+                    tblUrun.OlusturulmaTarihi = DateTime.Now;
+                    tblUrun.Agırlık = tblUrun.Agırlık+" "+ agirliktürü;
+                    _context.Add(tblUrun);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    //Response.Write(@"< script language = 'javascript' > alert('Görsel alanı boş bırakılamaz.');</ script > ");
                     ViewBag.HataMesaji = "Görsel alanı boş bırakılamaz.";
                 }
-               
             }
-
-            ViewBag.KategoriId = new SelectList(db.Tbl_Kategori, "KategoriId", "KategoriAdi", tbl_Urun.KategoriId);
-            return View(tbl_Urun);
+            ViewData["KategoriId"] = new SelectList(_context.TblKategoris, "KategoriId", "KategoriAdi", tblUrun.KategoriId);
+            return View(tblUrun);
         }
 
         // GET: AdminUrun/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-               return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Tbl_Urun tbl_Urun = db.Tbl_Urun.Find(id);
-            if (tbl_Urun == null)
+
+            var tblUrun = await _context.TblUruns.FindAsync(id);
+            if (tblUrun == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            ViewBag.KategoriId = new SelectList(db.Tbl_Kategori, "KategoriId", "KategoriAdi", tbl_Urun.KategoriId);
-            return View(tbl_Urun);
+            ViewData["KategoriId"] = new SelectList(_context.TblKategoris, "KategoriId", "KategoriAdi", tblUrun.KategoriId);
+            return View(tblUrun);
         }
 
         // POST: AdminUrun/Edit/5
-        // Aşırı gönderim saldırılarından korunmak için bağlamak istediğiniz belirli özellikleri etkinleştirin. 
-        // Daha fazla bilgi için bkz. https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UrunId,UrunAdi,KategoriId,IsActive,IsDelete,OlusturulmaTarihi,DegistirilmeTarihi,Fiyat,Acıklama,UrunResim,OneCıkan,Miktar,Agırlık")] Tbl_Urun tbl_Urun ,int id, HttpPostedFileBase gorsel)
+        public async Task<IActionResult> Edit(int id, [Bind("UrunId,UrunAdi,KategoriId,IsActive,IsDelete,OlusturulmaTarihi,DegistirilmeTarihi,Fiyat,Acıklama,UrunResim,OneCıkan,Miktar,Agırlık")] TblUrun tblUrun,IFormFile gorsel)
         {
-            try
+            if (id != tblUrun.UrunId)
             {
-                var urun = db.Tbl_Urun.Where(m=>m.UrunId==id).SingleOrDefault();
-                if (gorsel != null)
-                {
-                        if (System.IO.File.Exists(Server.MapPath(urun.UrunResim)))
-                        {
-                            System.IO.File.Delete(Server.MapPath(urun.UrunResim));
-                        }
-                        WebImage img = new WebImage(gorsel.InputStream);
-                        FileInfo fotoinfo = new FileInfo(gorsel.FileName);
-                        string newfoto = Guid.NewGuid().ToString() + fotoinfo.Extension;
-                        img.Save("~/Uploads/UrunGorsel/" + newfoto);
-                        urun.UrunResim = "/Uploads/UrunGorsel/" + newfoto;
-                }
-                urun.UrunAdi = tbl_Urun.UrunAdi;
-                urun.Acıklama = tbl_Urun.Acıklama;
-                urun.KategoriId = tbl_Urun.KategoriId;
-                urun.Fiyat = tbl_Urun.Fiyat;
-                urun.Miktar = tbl_Urun.Miktar;
-                urun.DegistirilmeTarihi = DateTime.Now;
-                urun.Agırlık = tbl_Urun.Agırlık;
-                ViewBag.KategoriId = new SelectList(db.Tbl_Kategori, "KategoriId", "KategoriAdi", tbl_Urun.KategoriId);
-                db.SaveChanges();
-                return RedirectToAction("Index");  
+                return NotFound();
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                ViewBag.KategoriId = new SelectList(db.Tbl_Kategori, "KategoriId", "KategoriAdi", tbl_Urun.KategoriId);
-                return View(tbl_Urun);
-            }    
+                try
+                {
+                    var urun = _context.TblUruns.Where(x => x.KategoriId == id).SingleOrDefault();
+                    if (gorsel!=null)
+                    {
+                        var currenturun = Path.Combine(Directory.GetCurrentDirectory(),urun.UrunResim );
+                        if (System.IO.File.Exists(currenturun))
+                        {
+                            System.IO.File.Delete(currenturun);
+                        }
+                        string imageExtension = Path.GetExtension(gorsel.FileName);
+                        string imageName = Guid.NewGuid() + imageExtension;
+                        tblUrun.UrunResim = "wwwroot/Uploads/UrunGorsel/" + imageName;
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/Uploads/UrunGorsel/{imageName}");
+                        using var stream = new FileStream(path, FileMode.Create);
+                        await gorsel.CopyToAsync(stream);
+
+                        tblUrun.DegistirilmeTarihi = DateTime.Now;
+                        _context.Update(tblUrun);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        ViewBag.HataMesaji = "Görsel alanı boş bırakılamaz.";
+                    }
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TblUrunExists(tblUrun.UrunId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["KategoriId"] = new SelectList(_context.TblKategoris, "KategoriId", "KategoriAdi", tblUrun.KategoriId);
+            return View(tblUrun);
         }
 
         // GET: AdminUrun/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Tbl_Urun tbl_Urun = db.Tbl_Urun.Find(id);
-            if (tbl_Urun == null)
+
+            var tblUrun = await _context.TblUruns
+                .Include(t => t.Kategori)
+                .FirstOrDefaultAsync(m => m.UrunId == id);
+            if (tblUrun == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(tbl_Urun);
+
+            return View(tblUrun);
         }
 
         // POST: AdminUrun/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
+            var tblUrun = await _context.TblUruns.FindAsync(id);
+            var currenturun = Path.Combine(Directory.GetCurrentDirectory(), tblUrun.UrunResim);
+            if (System.IO.File.Exists(currenturun))
             {
-                var urun = db.Tbl_Urun.Where(m=>m.UrunId==id).SingleOrDefault();
-                if (System.IO.File.Exists(Server.MapPath(urun.UrunResim)))
-                {
-                    System.IO.File.Delete(Server.MapPath(urun.UrunResim));
-                }
-
-                db.Tbl_Urun.Remove(urun);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-
-                return View();
+                System.IO.File.Delete(currenturun);
             }
 
-            
+            _context.TblUruns.Remove(tblUrun);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        protected override void Dispose(bool disposing)
+        private bool TblUrunExists(int id)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return _context.TblUruns.Any(e => e.UrunId == id);
         }
     }
 }

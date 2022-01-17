@@ -1,25 +1,23 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using on_e_commerce.Models;
-using on_e_commerce.data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity.UI.Services;
+
 
 namespace on_e_commerce.Controllers
 {
+    [Authorize(Roles = "Admin, Manager, Editor")]
     public class AdminController : Controller
     {
-        public dbEticaretEntities db = new dbEticaretEntities();
-
-        // GET: Admin
-        public ActionResult Index()
+        
+        public IActionResult Index()
         {
             return View();
         }
     }
-
-    }
+}

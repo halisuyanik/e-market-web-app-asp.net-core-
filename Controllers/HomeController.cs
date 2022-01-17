@@ -1,26 +1,39 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using on_e_commerce.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using on_e_commerce.data;
-using on_e_commerce.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
+using on_e_commerce.Helpers;
+
 
 namespace on_e_commerce.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly dbEticaretEntities db = new dbEticaretEntities();
-        private readonly Item db1 = new Item();
+        private readonly dbEticaretContext _context;
+
+        public HomeController(dbEticaretContext context)
+        {
+            _context = context;
+        }
+        // GET: HomeController
         public ActionResult Index()
         {
-            var urunler = db.Tbl_Urun;
+            var urunler = _context.TblUruns;
             return View(urunler);
         }
-        public ActionResult KategoriPartial()
+
+        public ActionResult _PartialKategori()
         {
-            var kategoriler = db.Tbl_Kategori;
-            return View(kategoriler);
+            var kategories=_context.TblKategoris;
+            return View(kategories);
+        }
+        public ActionResult SepetiOnayla()
+        { 
+            return View();
         }
 
         public ActionResult SepetAction(List<Item> urunler)
@@ -30,7 +43,7 @@ namespace on_e_commerce.Controllers
                 List<Item> sepet = new List<Item>();
                 for (int i = 0; i < urunler.Count(); i++)
                 {
-                    var urun = db.Tbl_Urun.Find(urunler[i].UrunId);
+                    var urun = _context.TblUruns.Find(urunler[i].UrunId);
                     sepet.Add(new Item()
                     {
                         Urun = urun,
@@ -40,7 +53,9 @@ namespace on_e_commerce.Controllers
                         Count = urunler[i].Count,
                     });
                 }
-                Session["sepet"] = sepet;
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "sepet", sepet);
+                //Session["sepet"] = sepet;
+                //List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet")
                 return RedirectToAction("SepetiOnayla");
             }
             else
@@ -49,30 +64,26 @@ namespace on_e_commerce.Controllers
             }
 
         }
-        public ActionResult SepetiOnayla()
-        {
-            return View();
-        }
 
         [HttpPost]
-        public JsonResult ModalSepetUrunEkle (int urunid, string url)
+        public JsonResult ModalSepetUrunEkle(int urunid, string url)
         {
-            if (Session["sepet"] == null)
+            if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet") == null)
             {
                 List<Item> sepet = new List<Item>();
-                var urun = db.Tbl_Urun.Find(urunid);
+                var urun = _context.TblUruns.Find(urunid);
                 sepet.Add(new Item()
                 {
                     Urun = urun,
                     Count = 1
                 });
-                Session["sepet"] = sepet;
+                SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet", sepet);
             }
             else
             {
-                List<Item> sepet = (List<Item>)Session["cart"];
+                List<Item> sepet = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet");
                 var urunsayisi = sepet.Count();
-                var urun = db.Tbl_Urun.Find(urunid);
+                var urun = _context.TblUruns.Find(urunid);
                 for (int i = 0; i < urunsayisi; i++)
                 {
                     if (sepet[i].Urun.UrunId == urunid)
@@ -99,18 +110,18 @@ namespace on_e_commerce.Controllers
                         }
                     }
                 }
-                Session["sepet"] = sepet;
+                SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet",sepet);
             }
 
-            return Json(Session["sepet"]);
+            return Json(SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session,"sepet")) ;
         }
         public ActionResult UrunuCıkar(int urunid)
         {
-            List<Item> sepet = (List<Item>)Session["sepet"];
-            if (Session["sepet"] != null)
+            List<Item> sepet = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session,"sepet");
+            if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet") != null)
             {
 
-                var urun = db.Tbl_Urun.Where(x => x.UrunId == urunid).SingleOrDefault();
+                var urun = _context.TblUruns.Where(x => x.UrunId == urunid).SingleOrDefault();
                 foreach (var item in sepet)
                 {
                     if (item.Urun.UrunId == urunid)
@@ -121,10 +132,11 @@ namespace on_e_commerce.Controllers
                         break;
                     }
                 }
-                Session["sepet"] = sepet;
-                if (Session["sepet"]==null)
+                SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet",sepet);
+               
+                if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet") == null)
                 {
-                    Session["sepet"] = null;
+                    SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet", null);
                 }
             }
 
@@ -132,16 +144,16 @@ namespace on_e_commerce.Controllers
         }
         public ActionResult UrunEksilt(int urunid)
         {
-            if (Session["sepet"] != null)
+            if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session,"sepet") != null)
             {
-                List<Item> sepet = (List<Item>)Session["sepet"];
-                var urun = db.Tbl_Urun.Where(x => x.UrunId == urunid).SingleOrDefault();
+                List<Item> sepet = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet");
+                var urun = _context.TblUruns.Where(x => x.UrunId == urunid).SingleOrDefault();
                 foreach (var item in sepet)
                 {
                     if (item.Urun.UrunId == urunid)
                     {
                         int prevQty = item.Count;
-                        if (prevQty==1)
+                        if (prevQty == 1)
                         {
                             sepet.Remove(item);
                         }
@@ -154,7 +166,7 @@ namespace on_e_commerce.Controllers
                         //        Count = prevQty - 1
                         //    });
                         //}
-                        else 
+                        else
                         {
                             sepet.Remove(item);
                             sepet.Add(new Item()
@@ -167,16 +179,17 @@ namespace on_e_commerce.Controllers
                         break;
                     }
                 }
-                Session["sepet"] = sepet;
+                SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet", sepet);
+                
             }
             return Redirect("SepetiOnayla");
         }
         public ActionResult UrunArttır(int urunid, string url)
         {
-            if (Session["sepet"] != null)
+            if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet") != null)
             {
-                List<Item> sepet = (List<Item>)Session["sepet"];
-                var urun = db.Tbl_Urun.Where(x => x.UrunId == urunid).SingleOrDefault();
+                List<Item> sepet = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "sepet");
+                var urun = _context.TblUruns.Where(x => x.UrunId == urunid).SingleOrDefault();
                 foreach (var item in sepet)
                 {
                     if (item.Urun.UrunId == urunid)
@@ -191,52 +204,19 @@ namespace on_e_commerce.Controllers
                         break;
                     }
                 }
-
-                Session["sepet"] = sepet;
+                SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet",sepet);
+               
             }
             return Redirect(url);
         }
         public ActionResult SepetiTemizle()
         {
-            Session["sepet"] = null;
-            return View();
-        }
-        public ActionResult SiparisiTamamla()
-        {
-            ViewBag.Sehirler = db.Sehirler.OrderBy(x => x.SehirAdi).ToList();
-            return View();
-
-        }
-        [HttpPost]
-        public ActionResult SiparisiTamamla(int totalfiyat)
-        {
-
-            return View();
-
-        }       
-        [HttpPost]
-        public JsonResult Ilceler(int SehirId)
-        {
-            int sehirid = Convert.ToInt32(SehirId);
-            var ilceler = db.Ilceler.Where(x => x.SehirId == sehirid).Select(i => new { Id = i.ilceId, Ad = i.IlceAdi }).ToList();
-            
-            return Json(ilceler);
-
-        }
-        
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
+            SessionHelper.SetObjectAsJson(HttpContext.Session,"sepet",null);
             return View();
         }
 
+       
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
-            return View();
-        }
     }
 }
