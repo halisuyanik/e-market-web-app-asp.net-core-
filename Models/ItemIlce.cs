@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using on_e_commerce.data;
+using on_e_commerce.Models;
 
 namespace on_e_commerce.Models
 {
