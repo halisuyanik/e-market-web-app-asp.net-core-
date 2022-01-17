@@ -1,4 +1,6 @@
-﻿@model IEnumerable<on_e_commerce.data.Tbl_Urun>
+﻿@model IEnumerable<on_e_commerce.Models.TblUrun>
+
+
 
 @{
     ViewBag.Title = "Index";
@@ -58,60 +60,60 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr role="row" class="odd">
-                    <td class="shorting_1">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="@item.UrunId">
-                            <label class="custom-control-label" for="@item.UrunId"></label>
-                        </div>
-                    </td>
-                    <td class="shorting_1">
-                        <div class="avatar avatar-md">
-                            <img src="@item.UrunResim" alt="..." class="avatar-img rounded-circle">
-                        </div>
-                    </td>
-                    <td class="shorting_1">
-                        <p class="mb-0 text-muted"><strong>@item.UrunAdi</strong></p>
+                    <tr role="row" class="odd">
+                        <td class="shorting_1">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="@item.UrunId">
+                                <label class="custom-control-label" for="@item.UrunId"></label>
+                            </div>
+                        </td>
+                        <td class="shorting_1">
+                            <div class="avatar avatar-md">
+                                <img src="@item.UrunResim" alt="..." class="avatar-img rounded-circle">
+                            </div>
+                        </td>
+                        <td class="shorting_1">
+                            <p class="mb-0 text-muted"><strong>@item.UrunAdi</strong></p>
 
-                    </td>
-                    <td class="shorting_1">
-                        <p class="mb-0 text-muted">@Html.DisplayFor(modelItem => item.Tbl_Kategori.KategoriAdi)</p>
-                    </td>
-                    <td class="shorting_1">
-                        <p class="mb-0 text-muted"><a href="#" class="text-muted">@item.OlusturulmaTarihi</a></p>
-                    </td>
-                    <td class="shorting_1">
-                        <p class="mb-0 text-muted"><a href="#" class="text-muted">@item.DegistirilmeTarihi</a></p>
-                    </td>
-                    <td class="shorting_1">
-                        <p class="mb-0 text-muted"><a href="#" class="text-muted">@item.Fiyat TL</a></p>
-                    </td>
-                    
-                    <td class="w-25 shorting_1">
-                        @if (item.Acıklama.Length <= 50)
-                        {
-                            <small class="text-muted">@item.Acıklama <a href="/AdminUrun/Details/@item.UrunId">...(Devam)</a></small>
-                        }
-                        else
-                        {
-                            <small class="text-muted"> @Html.Raw(item.Acıklama.Substring(0, 50)) <a href="/AdminUrun/Details/@item.UrunId">...(Devam)</a></small>
-                        }
+                        </td>
+                        <td class="shorting_1">
+                            <p class="mb-0 text-muted">@Html.DisplayFor(modelItem => item.Kategori.KategoriAdi)</p>
+                        </td>
+                        <td class="shorting_1">
+                            <p class="mb-0 text-muted"><a href="#" class="text-muted">@item.OlusturulmaTarihi</a></p>
+                        </td>
+                        <td class="shorting_1">
+                            <p class="mb-0 text-muted"><a href="#" class="text-muted">@item.DegistirilmeTarihi</a></p>
+                        </td>
+                        <td class="shorting_1">
+                            <p class="mb-0 text-muted"><a href="#" class="text-muted">@item.Fiyat TL</a></p>
+                        </td>
 
-                    </td>
+                        <td class="w-25 shorting_1">
+                            @if (item.Acıklama.Length <= 50)
+                            {
+                                <small class="text-muted">@item.Acıklama <a href="/AdminUrun/Details/@item.UrunId">...(Devam)</a></small>
+                            }
+                            else
+                            {
+                                <small class="text-muted"> @Html.Raw(item.Acıklama.Substring(0, 50)) <a href="/AdminUrun/Details/@item.UrunId">...(Devam)</a></small>
+                            }
+
+                        </td>
                         <td class="text-muted">@item.Miktar</td>
                         <td class="text-muted">@item.Agırlık</td>
                         <td>
                             <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="text-muted sr-only">Action</span>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" style="">
+                            <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item " href="/AdminUrun/Edit/@item.UrunId">Düzenle</a>
                                 <a class="dropdown-item" href="/AdminUrun/Delete/@item.UrunId">Sil</a>
                             </div>
                         </td>
                     </tr>
                 }
-               
+
             </tbody>
         </table>
         <nav aria-label="Table Paging" class="mb-0 text-muted">

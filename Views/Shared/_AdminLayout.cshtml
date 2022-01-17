@@ -1,13 +1,13 @@
-﻿@{
+﻿@*@{
     if (Session["uyeid"] == null)
     {
         Response.Redirect("~/Home/Index");
     }
-    if (Convert.ToInt32(Session["uyeyetkiid"]) == 2 )
+    if (Convert.ToInt32(Session["uyeyetkiid"]) == 2)
     {
         Response.Redirect("~/Home/Index");
     }
-}
+}*@
 
 
 
@@ -21,22 +21,22 @@
     <link rel="icon" href="~/Uploads/favicon.ico" type="image/x-icon" />
     <title>KOZZMOS ADMİN WEB DASHBOARD</title>
     <!-- Simple bar CSS -->
-    <link rel="stylesheet" href="~/Content/admin/css/simplebar.css">
+    <link rel="stylesheet" href="~/admin/css/simplebar.css">
     <!-- Fonts CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <!-- Icons CSS -->
-    <link rel="stylesheet" href="~/Content/admin/css/feather.css">
-    <link rel="stylesheet" href="~/Content/admin/css/select2.css">
-    <link rel="stylesheet" href="~/Content/admin/css/dropzone.css">
-    <link rel="stylesheet" href="~/Content/admin/css/uppy.min.css">
-    <link rel="stylesheet" href="~/Content/admin/css/jquery.steps.css">
-    <link rel="stylesheet" href="~/Content/admin/css/jquery.timepicker.css">
-    <link rel="stylesheet" href="~/Content/admin/css/quill.snow.css">
+    <link rel="stylesheet" href="~/admin/css/feather.css">
+    <link rel="stylesheet" href="~/admin/css/select2.css">
+    <link rel="stylesheet" href="~//admin/css/dropzone.css">
+    <link rel="stylesheet" href="~/admin/css/uppy.min.css">
+    <link rel="stylesheet" href="~/admin/css/jquery.steps.css">
+    <link rel="stylesheet" href="~/admin/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/admin/css/quill.snow.css">
     <!-- Date Range Picker CSS -->
-    <link rel="stylesheet" href="~/Content/admin/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/admin/css/daterangepicker.css">
     <!-- App CSS -->
-    <link rel="stylesheet" href="~/Content/admin/css/app-light.css" id="lightTheme">
-    <link rel="stylesheet" href="~/Content/admin/css/app-dark.css" id="darkTheme" disabled>
+    <link rel="stylesheet" href="~/admin/css/app-light.css" id="lightTheme">
+    <link rel="stylesheet" href="~/admin/css/app-dark.css" id="darkTheme" disabled>
 </head>
 <body class="vertical  light  ">
     <div class="wrapper">
@@ -67,7 +67,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="avatar avatar-sm mt-2">
-                            <img src="~/Content/admin/assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+                            <img src="~/admin/assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -85,10 +85,9 @@
             <nav class="vertnav navbar navbar-light">
                 <!-- nav bar -->
                 <div class="w-100 mb-4 d-flex">
-                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="/Admin/Index"
-                       >
+                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="/Admin/Index">
 
-                        <img src="~/Content/home/img/cllogo3.png" height="74" width="223" />
+                        <img src="~/home/img/cllogo3.png" height="74" width="223" />
 
 
                     </a>
@@ -157,16 +156,16 @@
                         </a>
                         @*<ul class="collapse list-unstyled pl-4 w-100" id="charts">
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="~/Content/admin/chart-inline.html"><span class="ml-1 item-text">Inline Chart</span></a>
+                                    <a class="nav-link pl-3" href="~/admin/chart-inline.html"><span class="ml-1 item-text">Inline Chart</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="~/Content/admin/chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
+                                    <a class="nav-link pl-3" href="~/admin/chart-chartjs.html"><span class="ml-1 item-text">Chartjs</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="~/Content/admin/chart-apexcharts.html"><span class="ml-1 item-text">ApexCharts</span></a>
+                                    <a class="nav-link pl-3" href="~/admin/chart-apexcharts.html"><span class="ml-1 item-text">ApexCharts</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link pl-3" href="~/Content/admin/datamaps.html"><span class="ml-1 item-text">Datamaps</span></a>
+                                    <a class="nav-link pl-3" href="~/admin/datamaps.html"><span class="ml-1 item-text">Datamaps</span></a>
                                 </li>
                             </ul>*@
                     </li>
@@ -398,38 +397,38 @@
         </main>
 
     </div> <!-- .wrapper -->
-    <script src="~/Content/admin/js/jquery.min.js"></script>
-    <script src="~/Content/admin/js/popper.min.js"></script>
-    <script src="~/Content/admin/js/moment.min.js"></script>
-    <script src="~/Content/admin/js/bootstrap.min.js"></script>
-    <script src="~/Content/admin/js/simplebar.min.js"></script>
-    <script src='~/Content/admin/js/daterangepicker.js'></script>
-    <script src='~/Content/admin/js/jquery.stickOnScroll.js'></script>
-    <script src="~/Content/admin/js/tinycolor-min.js"></script>
-    <script src="~/Content/admin/js/config.js"></script>
-    <script src="~/Content/admin/js/d3.min.js"></script>
-    <script src="~/Content/admin/js/topojson.min.js"></script>
-    <script src="~/Content/admin/js/datamaps.all.min.js"></script>
-    <script src="~/Content/admin/js/datamaps-zoomto.js"></script>
-    <script src="~/Content/admin/js/datamaps.custom.js"></script>
-    <script src="~/Content/admin/js/Chart.min.js"></script>
+    <script src="~/admin/js/jquery.min.js"></script>
+    <script src="~/admin/js/popper.min.js"></script>
+    <script src="~/admin/js/moment.min.js"></script>
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <script src="~/admin/js/simplebar.min.js"></script>
+    <script src='~/admin/js/daterangepicker.js'></script>
+    <script src='~/admin/js/jquery.stickOnScroll.js'></script>
+    <script src="~/admin/js/tinycolor-min.js"></script>
+    <script src="~/admin/js/config.js"></script>
+    <script src="~/admin/js/d3.min.js"></script>
+    <script src="~/admin/js/topojson.min.js"></script>
+    <script src="~/admin/js/datamaps.all.min.js"></script>
+    <script src="~/admin/js/datamaps-zoomto.js"></script>
+    <script src="~/admin/js/datamaps.custom.js"></script>
+    <script src="~/admin/js/Chart.min.js"></script>
     <script>
         /* defind global options */
         Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
         Chart.defaults.global.defaultFontColor = colors.mutedColor;
     </script>
-    <script src="~/Content/admin/js/gauge.min.js"></script>
-    <script src="~/Content/admin/js/jquery.sparkline.min.js"></script>
-    <script src="~/Content/admin/js/apexcharts.min.js"></script>
-    <script src="~/Content/admin/js/apexcharts.custom.js"></script>
-    <script src='~/Content/admin/js/jquery.mask.min.js'></script>
-    <script src='~/Content/admin/js/select2.min.js'></script>
-    <script src='~/Content/admin/js/jquery.steps.min.js'></script>
-    <script src='~/Content/admin/js/jquery.validate.min.js'></script>
-    <script src='~/Content/admin/js/jquery.timepicker.js'></script>
-    <script src='~/Content/admin/js/dropzone.min.js'></script>
-    <script src='~/Content/admin/js/uppy.min.js'></script>
-    <script src='~/Content/admin/js/quill.min.js'></script>
+    <script src="~/admin/js/gauge.min.js"></script>
+    <script src="~/admin/js/jquery.sparkline.min.js"></script>
+    <script src="~/admin/js/apexcharts.min.js"></script>
+    <script src="~/admin/js/apexcharts.custom.js"></script>
+    <script src='~/admin/js/jquery.mask.min.js'></script>
+    <script src='~/admin/js/select2.min.js'></script>
+    <script src='~/admin/js/jquery.steps.min.js'></script>
+    <script src='~/admin/js/jquery.validate.min.js'></script>
+    <script src='~/admin/js/jquery.timepicker.js'></script>
+    <script src='~/admin/js/dropzone.min.js'></script>
+    <script src='~/admin/js/uppy.min.js'></script>
+    <script src='~/admin/js/quill.min.js'></script>
     <script>
         $('.select2').select2(
             {
@@ -623,7 +622,7 @@
             });
         }
     </script>
-    <script src="~/Content/admin/js/apps.js"></script>
+    <script src="~/admin/js/apps.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
     <script>

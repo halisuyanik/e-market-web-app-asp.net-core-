@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Ödeme Basarili";
+     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    İşleminiz başarılı teşekkürler !
+</div>
+
+<script>
+   $(document).ready(function() {
+        $.ajax({
+            url: "/Home/SepetiTemizle/",
+        });
+        shoppingCart.clearCart();
+        displayCart();
+   });
+    
+</script>

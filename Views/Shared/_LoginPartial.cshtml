@@ -1,0 +1,84 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+@if (SignInManager.IsSignedIn(User))
+{
+
+
+    <div class="header__top__right__language">
+        <span >@User.Identity.Name</span>
+        <ul>
+            <li><a href="/Account/Index/"> Profilim </a></li>
+            <li><a href="/Account/MyOrders/"> Siparişlerim </a></li>
+            @{if (User.IsInRole("Admin"))
+                {
+                    <li><a href="/Admin/Index" target="_blank">Admin Panel</a></li>
+                }
+            }
+            <li><a href="javascript:$('#logoutForm').submit();">Çıkış Yap</a></li>
+            
+        </ul>
+    </div>
+
+<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            </form>
+
+    @*<li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>*@
+}
+else
+{
+<div class="btn-group">
+  <button type="button"   class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i><img src="~/home/planet.png" width="20" height="20" /></i> GİRİS YAP<br><span style="font-size:smaller;">veya üye ol</span>
+  </button>
+  <div class="dropdown-menu">
+      <a class="dropdown-item" id="login" asp-area="Identity" asp-page="/Account/Login">Giriş Yap</a>
+      <a class="dropdown-item" id="register" asp-area="Identity" asp-page="/Account/Register">Kayıt Ol</a>
+    @*
+    <a class="dropdown-item" href="/Account/Login">Giriş Yap</a>
+    <a class="dropdown-item" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+    *@
+    <a class="dropdown-item" href="/Account/MyOrders/">Siparişlerim</a>
+    <a class="dropdown-item" href="#">Kullanıcı Bilgilerim</a>
+    <a class="dropdown-item" href="#">Kozzmos Cüzdanım</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Beğendiklerim</a>
+    <a class="dropdown-item" href="#">Listelerim</a>
+    <div class="dropdown-divider"></div>
+     <a class="dropdown-item" href="#">Destek Taleplerim</a>
+  </div>
+</div>
+
+
+
+        @*<img src="~/home/planet.png" width="20" height="20" />  <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">KAYIT OL</a>*@
+ 
+
+    @*<li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">KAYIT OL</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">G�R�� YAP</a>
+        </li>*@
+}
+<style>
+    .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+</style>

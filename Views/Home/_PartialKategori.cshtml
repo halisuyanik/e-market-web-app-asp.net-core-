@@ -1,0 +1,22 @@
+﻿@model IEnumerable<on_e_commerce.Models.TblKategori>
+@{
+}
+
+
+<div class="col-lg-3">
+    <div class="hero__categories">
+        <div class="hero__categories__all">
+            <i class="fa fa-bars"></i>
+            <span>KATEGORİLER</span>
+        </div>
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li><a href="/Home/KategoriUrunleri/@item.KategoriId">@item.KategoriAdi</a></li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+

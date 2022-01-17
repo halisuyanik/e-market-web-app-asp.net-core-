@@ -1,4 +1,4 @@
-﻿@model on_e_commerce.data.Tbl_Kategori
+﻿@model on_e_commerce.Models.TblKategori
 
 @{
     ViewBag.Title = "Edit";
@@ -27,7 +27,7 @@
                     <label class="control-label col-md-4">Mevcut Kategori Resmi</label>
                     <div class="col-md-8">
                         <div class="avatar avatar-md">
-                            <img src="@Model.KategoriResim" alt="@Model.KategoriAdi"  width="203" height="72">
+                            <img src="@Model.KategoriResim" alt="@Model.KategoriAdi" width="203" height="72">
                             @Html.ValidationMessageFor(model => model.KategoriId, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     <label class="control-label col-md-2">Kategori Resmi</label>
                     <div class="col-md-8">
                         <div class="custom-file">
-                            <input type="file"  name="gorsel" id="gorsel" accept=".jpg,.png,.jpeg,.gif" class="form-control" />
+                            <input type="file" name="gorsel" id="gorsel" accept=".jpg,.png,.jpeg,.gif" class="form-control" />
                             @Html.ValidationMessageFor(model => model.KategoriResim, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -52,12 +52,12 @@
         </div>
     </div>
 }
-    <div class="toast alert alert-danger" role="alert" id="mytost" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="mr-auto">Hata</strong>
-        </div>
-        <div class="toast-body">
-            @TempData["kategorisonuc"]
-        </div>
+<div class="toast alert alert-danger" role="alert" id="mytost" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <strong class="mr-auto">Hata</strong>
     </div>
+    <div class="toast-body">
+        @TempData["kategorisonuc"]
+    </div>
+</div>
 

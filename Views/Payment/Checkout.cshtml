@@ -1,0 +1,253 @@
+@using Microsoft.AspNetCore.Identity
+@model on_e_commerce.Models.TblSiparisDetay
+@using on_e_commerce.Models
+@using Microsoft.AspNetCore.Http;
+@using on_e_commerce.Helpers;
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<style>
+</style>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="~/Uploads/favicon.ico" type="image/x-icon" />
+    <title>KOZZMOS</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+
+    <!-- Css Styles -->
+
+    <link rel="stylesheet" href="~/payment/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/payment/css/style.css" type="text/css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+    <script type="text/javascript">
+
+   $(document).ready(function () {
+
+    $("#il").change(function () {
+        $("#tblProducts tbody tr").remove();
+        $(".selectilce").empty();
+        $('.selectilce').prop("disabled", false);
+    $.ajax({
+        type: 'POST',
+        url: '@Url.Action("Ilceler", "Payment")',
+        dataType: 'json',
+        data: { SehirId: $("#il").val() },
+        success: function (data) {
+
+            var ilcehtmls = "";
+            for (var i in data) {
+                ilcehtmls += "<option value=" + data[i].id + "><span>" + data[i].ad + "</span></option>"
+
+            }
+            console.log(data);
+            $('.selectilce').html(ilcehtmls);
+
+           
+
+        },
+        error: function (ex) {
+            var r = jQuery.parseJSON(response.responseText);
+            alert("Message: " + r.Message);
+            alert("StackTrace: " + r.StackTrace);
+            alert("ExceptionType: " + r.ExceptionType);
+        }
+    });
+    return false;
+        })
+    });
+    
+    </script>
+
+</head>
+<body>
+
+        <section class="checkout-section spad">
+            <div class="container">
+                <div class="checkout-form">
+                    <div class="checkout-content">
+                        <a href="/Home/Index/">
+                            <img src="~/home/img/cllogo2.png" />
+                        </a>
+                    </div>
+
+                    @if (SignInManager.IsSignedIn(User) )
+                    {
+                        if(SessionHelper.GetObjectFromJson<List<Item>>(Context.Session, "sepet") !=  null )
+                        {
+                             int totalfiyat = 0;
+                            using (Html.BeginForm("Checkout", "Payment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                 {
+                                     @Html.AntiForgeryToken()
+
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <h4>Sipariş Detayları</h4>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label for="fir">Ad<span>*</span></label>
+                                            @Html.EditorFor(model => model.Ad, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.ValidationMessageFor(model => model.Ad, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Soyad<span>*</span></label>
+                                            @Html.EditorFor(model => model.Soyad, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.ValidationMessageFor(model => model.Soyad, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="sehir">Şehir<span>*</span></label>
+                                            <select id="il" name="il" class="form-control" required>
+                                                <option selected disabled>İl Seçiniz.</option>
+                                                @foreach (var item in ViewBag.Sehirler)
+                                                {
+                                                    <option value="@item.SehirId">@item.SehirAdi</option>
+                                                }
+                                                @Html.ValidationMessageFor(model => model.Sehir, "", new { @class = "text-danger" })
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="ilce">İlçe<span>*</span></label>
+                                            <select class="selectilce form-control" name="ilce" required disabled="disabled">
+                                                <option>Lütfe Önce Bir İl Seçiniz</option>
+                                                @Html.ValidationMessageFor(model => model.Ilce, "", new { @class = "text-danger" })
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label for="street">Adres<span>*</span></label>
+                                            @Html.EditorFor(model => model.Adres, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.ValidationMessageFor(model => model.Adres, "", new { @class = "text-danger" })
+                                            <input type="text" name="adresekbilgi" placeholder="Adres ek bilgi giriniz Ör: Bim marketin karşısı. (İsteğe Bağlı)">
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label for="email">Email Address<span>*</span></label>
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="phone">Phone<span>*</span></label>
+                                            @Html.EditorFor(model => model.TelefonNo, new { htmlAttributes = new { @class = "form-control", @required = "" } })
+                                            @Html.ValidationMessageFor(model => model.TelefonNo, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="create-item">
+                                                <label for="acc-create">
+                                                    Create an account?
+                                                    <input type="checkbox" id="acc-create">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="checkout-content">
+
+                                        <h5>İNDİRİM KUPONU</h5>
+                                        <input type="text" placeholder="İndirim kuponu kodunuzu giriniz">
+                                        <button class="site-btn  btn-block">İNDİRİM KUPONUNU UYGULA</button>
+                                    </div>
+
+                                    <div class="place-order">
+                                        <h4>Siparişiniz</h4>
+                                        <div class="order-total">
+
+                                            <ul class="order-table">
+                                                <li>ÜRÜN <span>TOPLAM</span></li>
+                                                @foreach (Item item in (List<Item>)ViewBag.sepet)
+                                                {
+
+                                                    int uruntotalfiyat = Convert.ToInt16(@item.Urun.Fiyat) * Convert.ToInt16(@item.Count);
+                                                    totalfiyat += uruntotalfiyat;
+
+                                                    <li class="fw-normal">@item.Urun.UrunAdi x @item.Count <span>@item.Urun.Fiyat TL</span></li>
+                                                }
+                                                <li class="fw-normal">ARA TOPLAM <span>@totalfiyat TL</span></li>
+                                                <li class="total-price">TOPLAM <span>@totalfiyat TL</span></li>
+                                            </ul>
+                                            @*<div class="payment-check">
+                                                <div class="pc-item">
+                                                    <label for="pc-check">
+                                                        Cheque Payment
+                                                        <input type="checkbox" id="pc-check">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="pc-item">
+                                                    <label for="pc-paypal">
+                                                        Paypal
+                                                        <input type="checkbox" id="pc-paypal">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                            </div>*@
+                                            <div class="order-btn">
+                                                <button type="submit" class="site-btn place-btn btn-block ">Siparişi Tamamla</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                                  }
+                        }
+                       
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                <strong>Alışveriş sepetiniz boş !</strong>
+                             </div>
+                         }
+                    }
+                    
+                </div>
+            </div>
+        </section>
+    
+  
+
+</body>
+</html>
+
+
+
+<!-- Js Plugins -->
+<script src="~/payment/js/jquery-3.3.1.min.js"></script>
+<script src="~/payment/js/bootstrap.min.js"></script>
+<script src="~/payment/js/jquery-ui.min.js"></script>
+<script src="~/payment/js/jquery.countdown.min.js"></script>
+<script src="~/payment/js/jquery.nice-select.min.js"></script>
+<script src="~/payment/js/jquery.zoom.min.js"></script>
+<script src="~/payment/js/jquery.dd.min.js"></script>
+<script src="~/payment/js/jquery.slicknav.js"></script>
+<script src="~/payment/js/owl.carousel.min.js"></script>
+<script src="~/payment/js/main.js"></script>
