@@ -45,13 +45,21 @@ namespace on_e_commerce.Controllers
             return View( orders.Where(x=>x.SiparisTarihi>=fromDate.AddDays(-30)));
           
         }
-        
+        public IActionResult MyOrderstry()
+        { 
+            DateTime fromDate = DateTime.Now;
+            string idd=_userManager.GetUserId(User).ToString();
+
+            var orders= _context.TblSiparisDetays.Where(x=>x.UyeId==idd).ToList();
+            return View( orders.Where(x=>x.SiparisTarihi>=fromDate.AddDays(-30)));
+        }
         public IActionResult MyOrders1()
         {
             
             DateTime fromDate = DateTime.Now;
-            string id=_userManager.GetUserId(User).ToString();
-            var orders= _context.TblSiparisDetays.Where(x=>x.UyeId==id).ToList();
+            string idd=_userManager.GetUserId(User).ToString();
+
+            var orders= _context.TblSiparisDetays.Where(x=>x.UyeId==idd).ToList();
             return View( orders.Where(x=>x.SiparisTarihi>=fromDate.AddDays(-30)));
         }
 

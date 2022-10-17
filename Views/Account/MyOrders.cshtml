@@ -1,45 +1,32 @@
-@model IEnumerable<on_e_commerce.Models.TblSiparisDetay>
 
 @using on_e_commerce.Models
-@{
-    dbEticaretContext db = new dbEticaretContext();
-}
-@{
+
+@{ 
+    dbEticaretContext db= new dbEticaretContext();
     ViewBag.Title = "Siparislerim";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{
 <link href="~/account/myorders.css" rel="stylesheet" />
-        int c = 0;
+<div id="app">
+<div class="container ">
+    <a href="/Hesabim/Index">Hesabım</a> > <span style="color: #7fad39; ">Siparişlerim</span>
+
+    <h4 style="margin-top:20px;">Siparişlerim</h4>
 
 
+    <div class="row" style="margin-top:20px;">
 
-        <div class="container ">
-            <a href="/Hesabim/Index">Hesabım</a> > <span style="color: #7fad39; ">Siparişlerim</span>
+        <div class="col-lg-3 font-weight-bolder">Siparişler</div>
 
-            <h4 style="margin-top:20px;">Siparişlerim</h4>
+        <a href="#" class=" col-lg-3 ">İptal Edilen Siparişler</a>
 
+    </div>
+    <div class="col-lg-2" style="display: block; border: 1px #7fad39 solid; border-radius: 155px; margin-top: 5px; "></div>
+    <div clas="col-lg-12" style="display: block; border: 1px #D5D9D9 solid; border-radius: 55px;"></div>
+     <div class="row" style="margin-top:10px;">
+               
 
-            <div class="row" style="margin-top:20px;">
-
-                <div class="col-lg-3 font-weight-bolder">Siparişler</div>
-
-                <a href="#" class=" col-lg-3 ">İptal Edilen Siparişler</a>
-
-            </div>
-
-            <div class="col-lg-2" style="display: block; border: 1px #7fad39 solid; border-radius: 155px; margin-top: 5px; "></div>
-
-
-            <div clas="col-lg-12" style="display: block; border: 1px #D5D9D9 solid; border-radius: 55px;"></div>
-
-            <div class="row" style="margin-top:10px;">
-                @foreach (var cc in Model)
-                {
-                    c += 1;
-                }
-
-                <h5 style="margin-top:10px; margin-right:5px;">@c sipariş<span> verildi </span></h5>
+                <h5 style="margin-top:10px; margin-right:5px;"> sipariş<span> verildi </span></h5>
 
                 <select name="filter" id="filter" class="select2 select2-container select2-container--default">
                     <option value="last30day">Son 30 gün</option>
@@ -47,42 +34,34 @@
                     <option value="year2021">2021</option>
                     <option value="year2020">2020</option>
                 </select>
-
-                
-                <script language="javascript" type="text/javascript">
-                    $(document).ready(function () {
-                        $("#filter").change(function () {
-                            var filterid = $('#filter').val();
-                            window.location.href = '@Url.Action("SiparislerimFilter", "Hesabim")' + '?filter=' + filterid;
-                        });
-                    });
-                </script>
-
-
-
             </div>
 
-            @foreach (var item in Model)
-            {
-                <div class="row">
+            
+             <div v-for="o in orders" class="row">
+                 
+                     
                     <div class=" col-lg-10">
 
                         <div class="card">
                             <div class="card-header">
                                 <div class="row d-flex justify-content-between px-3 top">
                                     <div class="d-flex">
-                                        <h5>Sipariş No <span class="text-primary font-weight-bold">#@item.SiparisBarkod</span></h5>
+                                        <h5>Sipariş No <span class="text-primary font-weight-bold">#{{o.siparisBarkod}}</span></h5>
                                     </div>
                                     <div class="d-flex flex-column text-sm-right">
-                                        <p class="mb-0">Sipariş Tarihi <span> @item.SiparisTarihi</span></p>
+                                        <p class="mb-0">Sipariş Tarihi <span>{{ o.siparisTarihi }} </span></p>
                                         <p>Kargo Takip No <span class="font-weight-bold">234094567242423422898</span></p>
                                     </div>
                                 </div> <!-- Add class 'active' to progress -->
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-12">
                                         <ul id="progressbar" class="text-center">
-
-                                            @if (item.SiparisDurumu == 1)
+                                            
+                                            <li v-if="o.siparisDurumu===1" class="statu1 active step0"></li>
+                                                <li class="statu2 step0"></li>
+                                                <li class="statu3 step0"></li>
+                                                <li class="statu4 step0"></li>
+                                            @*@if (item.SiparisDurumu == 1)
                                             {
                                                 <li class="statu1 active step0"></li>
                                                 <li class="statu2 step0"></li>
@@ -110,7 +89,7 @@
                                                 <li class="statu2 active step0"></li>
                                                 <li class="statu3 active step0"></li>
                                                 <li class="statu4 active step0"></li>
-                                            }
+                                            }*@
 
 
                                         </ul>
@@ -147,35 +126,23 @@
                                                 <div class="humberger__menu__widget">
                                                     <div class="header__top__right__language">
                                                         Alıcı  <span class="arrow_carrot-down"></span> <br>
-                                                        @*<div class="font-weight-lighter">@item.Ad @item.Soyad</div>*@
 
 
-                                                        <div class="font-weight-lighter">@item.Ad @item.Soyad</div>
+                                                        <div class="font-weight-lighter">{{o.ad}} {{o.Soyad}}</div>
 
                                                         <ul>
-                                                            <li><a>@item.Ad @item.Soyad</a></li>
-                                                            <li><a>@item.Adres</a></li>
-                                                            <li><a>@item.TelefonNo</a></li>
+                                                            <li><a>{{o.ad}} {{o.Soyad}}</a></li>
+                                                            <li><a>{{o.adres}}</a></li>
+                                                            <li><a>{{o.telefonNo}}</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            @{
-                                                int toplamadet = 0;
-
-
-                                                List<TblSiparisUrunleri> fls = db.TblSiparisUrunleris.Where(a => a.SiparisBarkod == item.SiparisBarkod).ToList();
-
-                                                foreach (var b in fls)
-                                                {
-                                                    toplamadet += Convert.ToInt16(b.Adet);
-                                                }
-
-                                            }
-                                            <div class="col-lg-3" style="color: #6f6f6f;">Sipariş Özeti<br><div class="font-weight-lighter">@fls.Count farklı ürün (@toplamadet adet) </div></div>
-                                            <div class="col-lg-3" style="color: #6f6f6f;">Tutar<br><div class="font-weight-lighter">@item.ToplamFiyat ₺</div></div>
-                                            <button class="col-lg-3 btn btn-outline-secondary" )">Sipariş Detayı</button>
+                                          
+                                            <div class="col-lg-3" style="color: #6f6f6f;">Sipariş Özeti<br><div class="font-weight-lighter"> farklı ürün ( adet) </div></div>
+                                            <div class="col-lg-3" style="color: #6f6f6f;">Tutar<br><div class="font-weight-lighter">{{o.toplamFiyat}} ₺</div></div>
+                                            <button class="col-lg-3 btn btn-outline-secondary">Sipariş Detayı</button>
                                         </div>
                                     </div>
 
@@ -189,29 +156,27 @@
 
 
                                     <div class="shoping__cart__table">
-                                        @foreach (var a in fls)
-                                        {
-
-                                            <div class=" a-box-2">
+                                       
+                                            <div v-for="op in orderproduct" class=" a-box-2">
                                                 <div class="a-box-2-inner ">
                                                     <table>
                                                         <tr>
                                                             <td class="shoping__cart__item">
-                                                                <img src="" width="80" height="80" alt="@a.Urun.UrunResim">
-                                                                <h5>@a.Urun.UrunAdi</h5>
+                                                                <img src="" width="80" height="80" alt="">
+                                                                <h5>{{op.UrunAdi}}</h5>
                                                             </td>
 
                                                             <td class="shoping__cart__price">
-                                                                <h5>@a.Adet adet</h5>
+                                                                <h5>asd adet</h5>
                                                             </td>
                                                             <td class="shoping__cart__total">
-                                                                <h5>@a.Urun.Fiyat ₺</h5>
+                                                                <h5>{{op.Fiyat}} ₺</h5>
                                                             </td>
                                                         </tr>
                                                     </table>
                                                 </div>
                                             </div>
-                                        }
+                                        
                                     </div>
 
 
@@ -234,13 +199,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            }
+               
+            
+
+</div>
+
+</div>
 
 
-        </div>
+@section Scripts{
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="~/account/myorders.js"></script>
 
-
-     
 }
-
